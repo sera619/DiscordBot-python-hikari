@@ -1,0 +1,5 @@
+__pycache__
+.env
+dps_user_list.txt
+hps_user_list.txt
+tank_user_list.txt
