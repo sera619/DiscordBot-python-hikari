@@ -2,8 +2,7 @@ import hikari
 import lightbulb
 import os
 from dotenv import load_dotenv
-from .commands import SERA_ID
-from songbird import ytdl, Driver
+
 
 music_plugin = lightbulb.Plugin('music', "Musicbot relevant commands")
 
@@ -28,11 +27,12 @@ async def _join(ctx: lightbulb.Context):
     return channel_id
 
 @music_plugin.command
-@lightbulb.option('url',' Youtube URL of the song', required=True,  modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
+@lightbulb.option('url',' Youtube URL of the song',modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
 @lightbulb.command('play','Play a song from youtube.', auto_defer = True, pass_options = True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def playSong(ctx: lightbulb.Context):
     channel_id = await _join(ctx)
+
     
 
 
