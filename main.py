@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import aiohttp
 import lightbulb
@@ -23,12 +24,16 @@ class NecroBot:
         @self.bot.listen(hikari.StartedEvent)
         async def start(event: hikari.StartedEvent):
             id = self.bot.get_me()
+            """
             await self.bot.rest.create_message(
                 channel=979384595114000384,
                 content='Bot started\n'
+                f'Check out ** https://github.com/sera619/DiscordBot-python-hikari **\n\n'
                 f'Plugins loaded:\n'
-                f'"plugins.commands",\n"plugins.moderator",\n"plugins.music"\n'
+                f'**Commands**\n**Moderator**",\n*Music*"\n'
+                f"\nAktuelles Datum und Zeit: {datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}"
             )
+            """
             return print("started", id)
 
 

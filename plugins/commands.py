@@ -3,12 +3,14 @@ import miru
 import lightbulb
 import os
 
-from .config import ROLE_HPS_USERS, ROLE_TANK_USERS, SERA_ID, LoadRoleList, ROLE_DPS_USERS
+
 from dist.customviews import DiceView, RoleView
 plugin = lightbulb.Plugin('commands')
+global CONTROL_CHANNEL
+CONTROL_CHANNEL = None
 
 @staticmethod
-async def checkAdmin(member_id, guild): 
+async def checkAdmin(member_id, guild) -> bool: 
     member = await plugin.bot.rest.fetch_member(guild=guild, user=member_id)
     member_roles = await member.fetch_roles()
     permissions = hikari.Permissions.NONE
@@ -49,10 +51,6 @@ async def printMsg(event: hikari.GuildMessageCreateEvent):
     else:
         return await plugin.bot.rest.create_message(content="You are not a Admin.", channel=event.channel_id)
 
-
-
-##########################################
-
 ############# CREATE CHAT COMMANDS ############
 @plugin.command
 @lightbulb.command('ping', 'Say pong!')
@@ -69,71 +67,6 @@ async def ping(ctx):
 
 # create subcommand, start with empty maincommand
 # -- create base admin commands group
-@plugin.command
-@lightbulb.command('admin', 'Admin commands')
-@lightbulb.implements(lightbulb.SlashCommandGroup)
-async def adminCommands(ctx):
-    pass
-
-@adminCommands.child
-@lightbulb.command('test', 'simple test command')
-@lightbulb.implements(lightbulb.SlashSubCommand)
-async def adminSendMsg(ctx: lightbulb.Context):
-    isAdmin = await checkAdmin(ctx.author.id, ctx.guild_id)
-    if isAdmin:
-        return await ctx.respond("Du bist ein admin")
-    else:
-        return await ctx.respond("Du bist kein admin")
-
-@adminCommands.child
-@lightbulb.command('dpsroles', "Get all user with DPS role")
-@lightbulb.implements(lightbulb.SlashSubCommand)
-async def adminGetDpsRoles(ctx: lightbulb.Context):
-    isAdmin = await checkAdmin(ctx.author.id, ctx.guild_id)
-    if not isAdmin:
-        return
-    user_string = ""
-    for user in ROLE_DPS_USERS:
-        user_string += str(user) + "\n"
-    new_embed = hikari.Embed(
-        title="DPS Role Users",
-        description=user_string
-    )
-    await ctx.respond(embed=new_embed)
-
-@adminCommands.child
-@lightbulb.command('tankroles', "Get all user with Tank role")
-@lightbulb.implements(lightbulb.SlashSubCommand)
-async def adminGetTankRoles(ctx: lightbulb.Context):
-    isAdmin = await checkAdmin(ctx.author.id, ctx.guild_id)
-    if not isAdmin:
-        return
-    user_string = ""
-    for user in ROLE_TANK_USERS:
-        user_string += str(user) + "\n"
-    new_embed = hikari.Embed(
-        title="Tank Role Users",
-        description=user_string
-    )
-    await ctx.respond(embed=new_embed)
-
-@adminCommands.child
-@lightbulb.command('hpsroles', "Get all user with HPS role")
-@lightbulb.implements(lightbulb.SlashSubCommand)
-async def adminGetHpsRoles(ctx: lightbulb.Context):
-    isAdmin = await checkAdmin(ctx.author.id, ctx.guild_id)
-    if not isAdmin:
-        return
-    user_string = ""
-    for user in ROLE_HPS_USERS:
-        user_string += str(user) + "\n"
-    new_embed = hikari.Embed(
-        title="HPS Role Users",
-        description=user_string
-    )
-    return await ctx.respond(embed=new_embed)
-
-################################################
 
 
 # load function required by lightbulb

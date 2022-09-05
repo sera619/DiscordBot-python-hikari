@@ -71,10 +71,12 @@ class RoleView(miru.View):
             title="Character Role Set",
             description=" **You have choose the tank role!**",
             )
+        # debbug
         count = 2
         zero = 0
         while zero != count:
             zero += 1
+        ####
             AddTankRole(str(ctx.user))
             
         return await ctx.edit_response(embed= new_embed, components=[])
@@ -82,4 +84,3 @@ class RoleView(miru.View):
     async def on_timeout(self):
         await self.message.edit("The menu timed out.", components=[])
         self.stop()
-    

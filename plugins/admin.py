@@ -6,7 +6,7 @@ from .config import ROLE_HPS_USERS, ROLE_TANK_USERS, SERA_ID, ROLE_DPS_USERS
 admin_plugin = lightbulb.Plugin('admin')
 
 ### Templates to send ingame role lists to discord channel
-async def getTankRoles(ctx):
+async def getTankRoles(ctx: lightbulb.Context):
     isAdmin = await checkAdmin(ctx.author.id, ctx.guild_id)
     if not isAdmin:
         return
@@ -19,7 +19,7 @@ async def getTankRoles(ctx):
     )
     await admin_plugin.bot.rest.create_message(ctx.channel_id, embed=new_embed)
 
-async def getHPSRoles(ctx):
+async def getHPSRoles(ctx: lightbulb.Context):
     isAdmin = await checkAdmin(ctx.author.id, ctx.guild_id)
     if not isAdmin:
         return
@@ -32,7 +32,7 @@ async def getHPSRoles(ctx):
     )
     await admin_plugin.bot.rest.create_message(ctx.channel_id, embed=new_embed)
 
-async def getDPSRoles(ctx):
+async def getDPSRoles(ctx: lightbulb.Context):
     isAdmin = await checkAdmin(ctx.author.id, ctx.guild_id)
     if not isAdmin:
         return
