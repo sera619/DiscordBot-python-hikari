@@ -9,6 +9,18 @@ This discordbot is planned to be a musicstreambot aswell chatmoderation and some
 This project is still under development and not save to be use in production mode.
 Feel free to edit.
 
+### Features ###
+
+This features are planned. This list would be edit.
+
+|Feature|Implemented|
+|:--------|---------:|
+|Musicbot| ❌|
+|Chatmoderation| ❌|
+|Usercommands|❌|
+|Admincommands|❌|
+|Interactive Role Selection|❌|
+
 ## Requirements/Installation ##
 
 You will need the follow software installed on your system to run this:
@@ -17,7 +29,16 @@ You will need the follow software installed on your system to run this:
 
 > - Python version 3.9.x or higher
 > - Python package ['Hikari'](https://pypi.org/project/hikari/)
+>
+>   ```cmd
+>   pip install hikari>
+>   ```
+>
 > - Python package ['Hikari-Miru'](https://pypi.org/project/hikari-miru/)
+>
+>   ```cmd
+>   pip install hikari-miru
+>   ````
 
 To install just download or clone the whole project.
 
