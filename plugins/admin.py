@@ -47,7 +47,7 @@ async def getDPSRoles(ctx: lightbulb.Context):
 
 ##########################################
 
-
+@admin_plugin.command
 @lightbulb.command('admin', 'Admin commands')
 @lightbulb.implements(lightbulb.SlashCommandGroup)
 async def adminCommands(ctx):
