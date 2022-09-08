@@ -32,7 +32,7 @@ You will need the follow software installed on your system to run this:
 > - Python package ['Hikari'](https://pypi.org/project/hikari/)
 >
 >   ```cmd
->   pip install hikari>
+>   pip install hikari
 >   ```
 >
 > - Python package ['Hikari-Miru'](https://pypi.org/project/hikari-miru/)
@@ -40,6 +40,12 @@ You will need the follow software installed on your system to run this:
 >   ```cmd
 >   pip install hikari-miru
 >   ````
+>
+> - Python package ['Hikari-Lightbulb'](https://pypi.org/project/hikari-lightbulb/)
+>
+>   ```cmd
+>   pip install hikari-lightbulb
+>   ```
 
 To install just download or clone the whole project.
 
