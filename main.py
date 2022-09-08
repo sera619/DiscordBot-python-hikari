@@ -1,6 +1,8 @@
 from datetime import datetime
 import os
 import aiohttp
+import concurrent.futures
+
 import lightbulb
 import hikari
 import miru
@@ -20,7 +22,12 @@ class NecroBot:
         
         LoadRoleList()
         self.bot = self.configBot()
-################# LOGIN ###################
+        self.bot.d.aio_session = None
+        self.bot.d.process_pool = None
+
+        
+        
+        ################# LOGIN ###################
         @self.bot.listen(hikari.StartedEvent)
         async def start(event: hikari.StartedEvent):
             id = self.bot.get_me()
@@ -35,6 +42,16 @@ class NecroBot:
                 f"\nAktuelles Datum und Zeit:\n**{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}**"
             )
             return print("started", id)
+        
+        @self.bot.listen()
+        async def on_starting(event: hikari.StartingEvent):
+            self.bot.d.aio_session = aiohttp.ClientSession()
+            self.bot.d.process_pool = concurrent.futures.ProcessPoolExecutor()
+
+        @self.bot.listen()
+        async def on_stopping(event: hikari.StoppingEvent):
+            await self.bot.d.aio_session.close()
+            self.bot.d.process_pool.shutdown(wait=True)
 
 
     def startBot(self):

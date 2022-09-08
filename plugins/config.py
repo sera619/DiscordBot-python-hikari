@@ -57,21 +57,21 @@ def LoadRoleList():
             return print("file not found, new file created")
         for user in f.readlines():
             ROLE_DPS_USERS.append(str(user).strip())
-    print("laoded dps list:\n", ROLE_DPS_USERS)
+    #print("laoded dps list:\n", ROLE_DPS_USERS)
     with open(HPS_SAVEPATH, 'r') as f:
         if not f:
             f = open(HPS_SAVEPATH, 'r')
             return print("file not found, new file created")
         for user in f.readlines():
             ROLE_HPS_USERS.append(str(user).strip())
-    print("loaded hps list:\n", ROLE_HPS_USERS)
+    #print("loaded hps list:\n", ROLE_HPS_USERS)
     with open(TANK_SAVEPATH, 'r') as f:
         if not f:
             f = open(TANK_SAVEPATH, 'r')
             return print("file not found, new file created")
         for user in f.readlines():
             ROLE_TANK_USERS.append(str(user).strip())
-    return print("loaded tank list:\n", ROLE_TANK_USERS)
+    # print("loaded tank list:\n", ROLE_TANK_USERS)
     """
     """
 

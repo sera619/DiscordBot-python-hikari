@@ -7,6 +7,7 @@ This discordbot is planned to be a musicstreambot aswell chatmoderation and some
 ## Status ##
 
 This project is still under development and not save to be use in production mode.
+Musicbot, Chatmoderation and interactive role selection is now implemented.
 Feel free to edit.
 
 ### Features ###
@@ -15,11 +16,11 @@ This features are planned. This list would be edit.
 
 |Feature|Implemented|
 |:--------|---------:|
-|Musicbot| ❌|
-|Chatmoderation| ❌|
+|Musicbot| ✅|
+|Chatmoderation| ✅|
 |Usercommands|❌|
 |Admincommands|❌|
-|Interactive Role Selection|❌|
+|Interactive Role Selection|✅|
 
 ## Requirements/Installation ##
 

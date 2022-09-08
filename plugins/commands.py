@@ -65,8 +65,6 @@ async def ping(ctx):
     )
     await ctx.respond('Pong!')
 
-# create subcommand, start with empty maincommand
-# -- create base admin commands group
 
 
 # load function required by lightbulb

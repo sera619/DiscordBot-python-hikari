@@ -89,9 +89,9 @@ async def adminInitBot(ctx: lightbulb.Context):
 @lightbulb.command('allroles', "Get all User with choosen ingame role.")
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def adminAllRoles(ctx: lightbulb.Context):
-    await getTankRoles()
-    await getHPSRoles()
-    await getDPSRoles()
+    await getTankRoles(ctx)
+    await getHPSRoles(ctx)
+    await getDPSRoles(ctx)
     await ctx.respond('**Complet Rolelist request done!**')
 
 @adminCommands.child

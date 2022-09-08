@@ -48,7 +48,7 @@ async def clearTextMsg(ctx: lightbulb.Context, amount: str):
     )
 
     await moderator_plugin.bot.rest.delete_messages(ctx.channel_id, messages)
-    return await ctx.respond("Es wurden " + str(amount) + " Nachrichten gelöscht!")
+    await ctx.respond("Es wurden " + str(amount) + " Nachrichten gelöscht!")
 
 
 
