@@ -15,7 +15,9 @@ async def getTankRoles(ctx: lightbulb.Context):
         user_string += str(user) + "\n"
     new_embed = hikari.Embed(
         title="Tank Role Users",
-        description=user_string
+        description=user_string,
+        colour=0x0001a8
+
     )
     await admin_plugin.bot.rest.create_message(ctx.channel_id, embed=new_embed)
 
@@ -28,7 +30,9 @@ async def getHPSRoles(ctx: lightbulb.Context):
         user_string += str(user) + "\n"
     new_embed = hikari.Embed(
         title="HPS Role Users",
-        description=user_string
+        description=user_string,
+        colour=0x009a00
+
     )
     await admin_plugin.bot.rest.create_message(ctx.channel_id, embed=new_embed)
 
@@ -41,7 +45,8 @@ async def getDPSRoles(ctx: lightbulb.Context):
         user_string += str(user) + "\n"
     new_embed = hikari.Embed(
         title="DPS Role Users",
-        description=user_string
+        description=user_string,
+        colour=0xC80000
     )
     await admin_plugin.bot.rest.create_message(ctx.channel_id, embed=new_embed)
 
@@ -92,7 +97,7 @@ async def adminAllRoles(ctx: lightbulb.Context):
     await getTankRoles(ctx)
     await getHPSRoles(ctx)
     await getDPSRoles(ctx)
-    await ctx.respond('**Complet Rolelist request done!**')
+    await ctx.respond('**Complete Rolelist request done!**')
 
 @adminCommands.child
 @lightbulb.command('dpsroles', "Get all user with ingame DPS role")

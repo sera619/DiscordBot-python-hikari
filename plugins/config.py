@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 SERA_ID = os.environ['SERA_ID']
@@ -12,6 +13,7 @@ ROLE_TANK_USERS=[]
 DPS_SAVEPATH = 'dps_user_list.txt'
 TANK_SAVEPATH = 'tank_user_list.txt'
 HPS_SAVEPATH = 'hps_user_list.txt'
+SHOW_START_EMBED = False
 
 
 # adding new character to DPS, HPS, Tank role

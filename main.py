@@ -7,7 +7,7 @@ import lightbulb
 import hikari
 import miru
 from lightbulb.ext import tasks
-from plugins.config import SERA_DISCORD_ID, SERA_ID, TOKEN, LoadRoleList
+from plugins.config import SERA_DISCORD_ID, SERA_ID, TOKEN, LoadRoleList, SHOW_START_EMBED
 
 class NecroBot:
     def __init__(self, token, discord_id = None, admin_id = None):
@@ -33,14 +33,15 @@ class NecroBot:
             id = self.bot.get_me()
             """
             """
-            await self.bot.rest.create_message(
-                channel=979384595114000384,
-                content='Bot started\n'
-                f'Check out ** https://github.com/sera619/DiscordBot-python-hikari **\n\n'
-                f'Plugins loaded:\n'
-                f'**Admin**\n**Commands**\n**Moderator**\n**Music**\n'
-                f"\nAktuelles Datum und Zeit:\n**{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}**"
-            )
+            if SHOW_START_EMBED == True:
+                await self.bot.rest.create_message(
+                    channel=979384595114000384,
+                    content='Bot started\n'
+                    f'Check out ** https://github.com/sera619/DiscordBot-python-hikari **\n\n'
+                    f'Plugins loaded:\n'
+                    f'**Admin**\n**Commands**\n**Moderator**\n**Music**\n'
+                    f"\nAktuelles Datum und Zeit:\n**{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}**"
+                )
             return print("started", id)
         
         @self.bot.listen()

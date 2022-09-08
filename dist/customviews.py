@@ -2,7 +2,7 @@ import miru
 import hikari
 import random
 
-from plugins.config import AddDpsRole, AddHpsRole, AddTankRole
+from plugins.config import AddDpsRole, AddHpsRole, AddTankRole, SHOW_START_EMBED
 
 class DiceView(miru.View):
     @miru.select(
@@ -35,6 +35,18 @@ class DiceView(miru.View):
     async def on_timeout(self):
         await self.message.edit("The menu timed out.", components=[])
         self.stop()
+
+class StartOptionView(miru.View):
+    @miru.button(emoji="✅", style=hikari.ButtonStyle.SECONDARY)
+    async def showStartEmbed(self, button: miru.Button, ctx: miru.Context):
+        SHOW_START_EMBED = True
+        await ctx.edit_response("Zeige Start Nachricht "+str(SHOW_START_EMBED), components=[])
+
+    @miru.button(emoji="❌", style=hikari.ButtonStyle.DANGER)
+    async def hideStartEmbed(self, button:miru.Button, ctx: miru.Context):
+        SHOW_START_EMBED = False
+        await ctx.edit_response("Zeige Start Nachricht: "+str(SHOW_START_EMBED), components=[])
+
 
 class RoleView(miru.View):
     @miru.button(emoji="⚔️", label="DPS", style=hikari.ButtonStyle.DANGER)
