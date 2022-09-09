@@ -39,7 +39,7 @@ You will need the follow software installed on your system to run this:
 >
 >   ```cmd
 >   pip install hikari-miru
->   ````
+>   ```
 >
 > - Python package ['Hikari-Lightbulb'](https://pypi.org/project/hikari-lightbulb/)
 >

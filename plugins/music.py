@@ -3,6 +3,7 @@ import json
 import logging
 import random
 import re
+from time import sleep
 from typing import Optional
 import os
 import hikari
@@ -72,6 +73,7 @@ class LavalinkEventHandler:
 
         if not guild_node or not guild_node.now_playing and len(guild_node.queue) == 0:
             if event.guild_id is not None:
+                await asyncio.sleep(120.0)
                 await music_plugin.bot.update_voice_state(event.guild_id, None)
                 await music_plugin.d.lavalink.wait_for_connection_info_remove(event.guild_id)
             await music_plugin.d.lavalink.destroy(event.guild_id)
@@ -197,10 +199,15 @@ async def _join(ctx: lightbulb.Context) -> Optional[hikari.Snowflake]:
 
     return channel_id
 
+@music_plugin.command
+@lightbulb.command('music', 'Musicbot Commands')
+@lightbulb.implements(lightbulb.SlashCommandGroup)
+async def musicBot(ctx: lightbulb.Context):
+    pass 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("join", "Joins your voice channel", auto_defer=True)
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def join(ctx: lightbulb.Context) -> None:
     channel_id = await _join(ctx)
     if channel_id:
@@ -208,9 +215,9 @@ async def join(ctx: lightbulb.Context) -> None:
         await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("leave", "leaves your voice channel.", auto_defer=True, aliases=["stop"])
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def leave(ctx: lightbulb.Context) -> None:
     assert (ctx.get_guild)
     await music_plugin.d.lavalink.destroy(ctx.guild_id)
@@ -233,12 +240,12 @@ async def leave(ctx: lightbulb.Context) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.option("query", "The name of the song (or url) that you want to play",
                   modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
 @lightbulb.command("play", "searches for your song. (Please choose one type only.)", auto_defer=True,
                    pass_options=True)
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def play(ctx: lightbulb.Context, query: str) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -299,10 +306,10 @@ async def play_autocomplete(opt: hikari.AutocompleteInteractionOption, inter: hi
     return [track.info.title for track in query.tracks[:5]]
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.option("percentage", "What to change the volume to.", int, max_value=200, min_value=0, default=100)
 @lightbulb.command("volume", "Change the volume.", auto_defer=True, aliases=["v"], pass_options=True)
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def volume(ctx: lightbulb.Context, percentage: int) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -331,10 +338,10 @@ async def volume(ctx: lightbulb.Context, percentage: int) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.option("time", "What time you would like to seek to.", modifier=lightbulb.OptionModifier.CONSUME_REST)
 @lightbulb.command("seek", "Seek to a specific point in a song.", auto_defer=True, aliases=["se"], pass_options=True)
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def seek(ctx: lightbulb.Context, time) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -367,9 +374,9 @@ async def seek(ctx: lightbulb.Context, time) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("shuffle", "Shuffle the current queue!", aliases=["sf"])
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def shuffle(ctx: lightbulb.Context) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -401,9 +408,9 @@ async def shuffle(ctx: lightbulb.Context) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("replay", "Replays the current song.", auto_defer=True, aliases=["rp"])
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def replay(ctx: lightbulb.Context) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -421,9 +428,9 @@ async def replay(ctx: lightbulb.Context) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("skip", "skips to the next song (if any).", auto_defer=True, aliases=["sk"])
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def skip(ctx: lightbulb.Context) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -451,9 +458,9 @@ async def skip(ctx: lightbulb.Context) -> None:
                 description=f"**Skipped Track:** {skipped_track.title}\n**Now Playing:** {new_track.title}"))
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("pause", "Pauses the currently playing track.", auto_defer=True, aliases=["ps"])
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def pause(ctx: lightbulb.Context) -> None:
     assert (ctx.guild_id)
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
@@ -479,9 +486,9 @@ async def pause(ctx: lightbulb.Context) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("resume", "Resumes playing the currently playing track.", auto_defer=True, aliases=["unpause", "rs"])
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def resume(ctx: lightbulb.Context) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -506,9 +513,9 @@ async def resume(ctx: lightbulb.Context) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("nowplaying", "See what's currently playing.", auto_defer=True, aliases=["np", "playing"])
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def now_playing(ctx: lightbulb.Context) -> None:
     node = await music_plugin.d.lavalink.get_guild_node(ctx.guild_id)
     if not node or not node.now_playing:
@@ -539,9 +546,9 @@ async def now_playing(ctx: lightbulb.Context) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("queue", "Shows you the queue.", aliases=["q", "que"], auto_defer=True)
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def queue(ctx: lightbulb.Context) -> None:
     node = await music_plugin.d.lavalink.get_guild_node(ctx.guild_id)
     if not node or not node.now_playing:
@@ -574,10 +581,10 @@ async def queue(ctx: lightbulb.Context) -> None:
     await navigator.run(ctx)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.option("index", "Index for the song you want to remove.", int, required=True)
 @lightbulb.command("remove", "Removes a song from the queue.", auto_defer=True, aliases=["r"], pass_options=True)
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def remove(ctx: lightbulb.Context, index) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -613,11 +620,11 @@ async def remove(ctx: lightbulb.Context, index) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.option("position", "The song's position in the queue.", int, required=True)
 @lightbulb.command("skipto", "skip to a different song in the queue.", auto_defer=True, aliases=["skto"],
                    pass_options=True)
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def skipto(ctx: lightbulb.Context, position: int) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -659,9 +666,9 @@ async def skipto(ctx: lightbulb.Context, position: int) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("loop", "Loops the currently playing song!", auto_defer=True, aliases=["repeat", "lp"])
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def loop(ctx: lightbulb.Context) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -686,12 +693,12 @@ async def loop(ctx: lightbulb.Context) -> None:
         await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.option("new_position", "The songs new position in the queue.", int, required=True)
 @lightbulb.option("current_position", "The songs current position in the queue.", int, required=True)
 @lightbulb.command("move", "Move a song to a different position in the queue.", auto_defer=True, aliases=["mv"],
                    pass_options=True)
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def move(ctx: lightbulb.Context, current_position, new_position) -> None:
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
     voice_state = [state async for state in states.iterator().filter(lambda i: i.user_id == ctx.author.id)]
@@ -728,9 +735,9 @@ async def move(ctx: lightbulb.Context, current_position, new_position) -> None:
     await ctx.respond(embed=embed)
 
 
-@music_plugin.command()
+@musicBot.child
 @lightbulb.command("empty", "Clear the queue.", auto_defer=True, aliases=["clear"])
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def empty(ctx: lightbulb.Context) -> None:
     assert (ctx.guild_id)
     states = music_plugin.bot.cache.get_voice_states_view_for_guild(ctx.guild_id)
@@ -754,12 +761,11 @@ async def empty(ctx: lightbulb.Context) -> None:
     embed = hikari.Embed(title="**Emptied the queue.**", color=ctx.author.accent_color)
     await ctx.respond(embed=embed)
 
-
-@music_plugin.command()
+@musicBot.child
 @lightbulb.option("artist", "The song's artist.", str, required=True)
 @lightbulb.option("title", "The song's title.", str, required=True)
 @lightbulb.command("lyrics", "See the lyrics of a song.", auto_defer=True, aliases=["ly"], pass_options=True)
-@lightbulb.implements(lightbulb.SlashCommand)
+@lightbulb.implements(lightbulb.SlashSubCommand)
 async def lyrics(ctx: lightbulb.Context, artist: str, title: str) -> None:
     url = URL.build(scheme="https", host="api.lyrics.ovh", path=f"/v1/{artist}/{title}")
     async with ctx.bot.d.aio_session.get(url) as resp:
