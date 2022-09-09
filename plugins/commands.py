@@ -45,11 +45,11 @@ async def printMsg(event: hikari.GuildMessageCreateEvent):
         await view.wait()
         return print("Rolecheck done!")
 
-
-    if is_admin and event.content != "buttons":
-        return await plugin.bot.rest.create_message(content="Your are a Admin",channel= event.channel_id)
-    else:
-        return await plugin.bot.rest.create_message(content="You are not a Admin.", channel=event.channel_id)
+    if event.content != "buttons" and event.content != 'classcheck' and event.content != "rolecheck":
+        if is_admin:
+            return await plugin.bot.rest.create_message(content="Your are a Admin",channel= event.channel_id)
+        else:
+            return await plugin.bot.rest.create_message(content="You are not a Admin.", channel=event.channel_id)
 
 ############# CREATE CHAT COMMANDS ############
 @plugin.command

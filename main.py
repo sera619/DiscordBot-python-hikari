@@ -6,8 +6,12 @@ import concurrent.futures
 import lightbulb
 import hikari
 import miru
+from hikari import emojis
 from lightbulb.ext import tasks
 from plugins.config import SERA_DISCORD_ID, SERA_ID, TOKEN, LoadRoleList, SHOW_START_EMBED
+
+CLASSICONS = {}
+
 
 class NecroBot:
     def __init__(self, token, discord_id = None, admin_id = None):
@@ -42,6 +46,14 @@ class NecroBot:
                     f'**Admin**\n**Commands**\n**Moderator**\n**Music**\n'
                     f"\nAktuelles Datum und Zeit:\n**{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}**"
                 )
+
+            ### GET ALLL CUSTOM EMOJIS ###
+            
+            # emojis = await self.bot.rest.fetch_guild_emojis(SERA_DISCORD_ID)
+            # for emoji in emojis:
+            #     print(emoji.name, emoji.id)
+
+
             return print("started", id)
         
         @self.bot.listen()
@@ -64,6 +76,8 @@ class NecroBot:
         )           
     )
 
+    def stopBot(self):
+        self.bot.close()
 
     def configBot(self):
         self.bot = lightbulb.BotApp(
@@ -71,8 +85,8 @@ class NecroBot:
             default_enabled_guilds=(int(self.SERA_DISCORD_ID)),
             intents= hikari.Intents.ALL,
             help_slash_command=True,
-            ignore_bots=True)
-        self.bot.load_extensions("plugins.commands", "plugins.moderator", "plugins.music", "plugins.admin")
+            ignore_bots=False)
+        self.bot.load_extensions("plugins.commands", "plugins.moderator", "plugins.music", "plugins.admin", "plugins.WoW")
         tasks.load(self.bot)
         miru.load(self.bot)
         return self.bot
@@ -95,6 +109,7 @@ if __name__ == '__main__':
         bot = NecroBot(token=TOKEN, admin_id=admin_id, discord_id=discord_id) 
         main()
     except KeyboardInterrupt:
+        bot.stopBot()
         exit()
     finally:
         print("Bot exited")

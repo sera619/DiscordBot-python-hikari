@@ -1,7 +1,9 @@
 import miru
 import hikari
+from hikari import emojis
 import random
 
+from main import CLASSICONS
 from plugins.config import AddDpsRole, AddHpsRole, AddTankRole, SHOW_START_EMBED
 
 class DiceView(miru.View):
@@ -47,6 +49,61 @@ class StartOptionView(miru.View):
         SHOW_START_EMBED = False
         await ctx.edit_response("Zeige Start Nachricht: "+str(SHOW_START_EMBED), components=[])
 
+class ClassView(miru.View):
+    
+    @miru.button(emoji=1017789881029763123,label="Death Knight", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassDK(self, button: miru.Button, ctx: miru.Context):
+        await ctx.edit_response("You choosed Death Knight Class.", components=[])
+
+    @miru.button(emoji= 1017789934440026233,label="Demon Hunter", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassDH(self, button: miru.Button, ctx: miru.Context):
+        await ctx.edit_response("You Choosed DH Class", components=[])
+    
+    @miru.button(emoji=1017789969059819541,label="Druid", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassDruid(self, button: miru.Button, ctx: miru.Context):
+        await ctx.edit_response("You Choosed Druid Class", components=[])
+    
+    @miru.button(emoji=1017790009685852201, label="Hunter", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassHunter(self, button: miru.Button, ctx: miru.Context):
+        await ctx.edit_response("You Choosed Hunter Class", components=[])
+    
+    @miru.button(emoji=1017790054824947753,label="Mage", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassDH(self, button: miru.Button, ctx: miru.Context):
+        await ctx.edit_response("You Choosed Mage Class", components=[])
+    
+    @miru.button(emoji=1017790056334889040,label="Monk", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassMonk(self, button: miru.Button, ctx: miru.Context):
+        await ctx.edit_response("You Choosed Monk Class", components=[])
+    
+    @miru.button(emoji=1017790057530265621,label="Paladin", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassPaladin(self, button: miru.Button, ctx: miru.Context):
+        await ctx.edit_response("You Choosed Paladin Class", components=[])
+
+    @miru.button(emoji=1017790058851483720,label="Priest", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassPriest(self, button: miru.Button, ctx: miru.Context):
+        await ctx.edit_response("You Choosed Priest Class", components=[])
+    
+    @miru.button(emoji=1017790059673563217, label='Rogue', style=hikari.ButtonStyle.PRIMARY)
+    async def setClassRogue(self, button: miru.Button, ctx: miru.Context):
+        await ctx.edit_response('You choosed Rogue Class.', components=[])
+
+    @miru.button(emoji=1017790061401620500 ,label="Shaman", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassShaman(self, button: miru.Button, ctx: miru.Context,):
+        await ctx.edit_response("You Choosed Shaman Class", components=[])
+    
+    @miru.button(emoji=1017790063310024774,label="Warlock", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassWarlock(self, button: miru.Button ,ctx: miru.Context):
+        await ctx.edit_response("You Choosed Warlock Class", components=[])
+    
+    @miru.button(emoji=1017790064698343496,label="Warrior", style=hikari.ButtonStyle.PRIMARY)
+    async def setClassWarrior(self,button:miru.Button, ctx: miru.Context):
+        await ctx.edit_response("You Choosed Warrior Class", components=[])
+    
+    
+    
+    async def on_timeout(self):
+        await self.message.edit("The classcheck timed out.", components=[])
+        self.stop()
 
 class RoleView(miru.View):
     @miru.button(emoji="⚔️", label="DPS", style=hikari.ButtonStyle.DANGER)

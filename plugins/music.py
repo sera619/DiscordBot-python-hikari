@@ -3,7 +3,6 @@ import json
 import logging
 import random
 import re
-from time import sleep
 from typing import Optional
 import os
 import hikari
