@@ -18,10 +18,10 @@ This features are planned. This list would be edit.
 |:--------|---------:|
 |Musicbot| ✅|
 |Chatmoderation| ✅|
-|Usercommands|❌|
-|Admincommands|❌|
+|Usercommands|❌ / ✅|
+|Admincommands|❌ / ✅|
 |Interactive Role Selection|✅|
-
+|World of Warcraft Class/Role List|✅|
 ## Requirements/Installation ##
 
 You will need the follow software installed on your system to run this:
@@ -45,6 +45,12 @@ You will need the follow software installed on your system to run this:
 >
 >   ```cmd
 >   pip install hikari-lightbulb
+>   ```
+>
+> - Python package ['Lavasnek-rs'](https://pypi.org/project/lavasnek-rs/0.1.0-alpha.0/)
+>
+>   ```cmd
+>   pip install lavasnek-rs==0.1.0-alpha.0
 >   ```
 
 To install just download or clone the whole project.
