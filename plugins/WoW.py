@@ -52,6 +52,9 @@ async def ShowDKList(ctx:lightbulb.Context):
     user_string = ""
     for user in CLASS_DK_LIST:
         user_string += str(user) + "\n"
+    if user_string == "":
+        user_string = "No Hunter DK found."
+
     new_embed = hikari.Embed(
         title='**All DK Players**',
         description=user_string,
@@ -66,6 +69,9 @@ async def ShowDHList(ctx:lightbulb.Context):
     user_string = ""
     for user in CLASS_DH_LIST:
         user_string += str(user) + "\n"
+    if user_string == "":
+        user_string = "No Demon Hunter player found."
+
     new_embed = hikari.Embed(
         title='**All Demon Hunter Players**',
         description=user_string,
@@ -94,6 +100,9 @@ async def ShowDruidList(ctx:lightbulb.Context):
     user_string = ""
     for user in CLASS_DRUID_LIST:
         user_string += str(user) + "\n"
+    if user_string == "":
+        user_string = "No Druid player found."
+
     new_embed = hikari.Embed(
         title='**All Druid Players**',
         description=user_string,
@@ -108,6 +117,8 @@ async def ShowHunterList(ctx:lightbulb.Context):
     user_string = ""
     for user in CLASS_HUNTER_LIST:
         user_string += str(user) + "\n"
+    if user_string == "":
+        user_string = "No Hunter player found."
     new_embed = hikari.Embed(
         title='**All Hunter Players**',
         description=user_string,
@@ -122,6 +133,9 @@ async def ShowPaladinList(ctx:lightbulb.Context):
     user_string = ""
     for user in CLASS_PALADIN_LIST:
         user_string += str(user) + "\n"
+    if user_string == "":
+        user_string = "No Paladin player found."
+
     new_embed = hikari.Embed(
         title='**All Paladin Players**',
         description=user_string,
@@ -135,6 +149,9 @@ async def ShowPriestList(ctx:lightbulb.Context):
     user_string = ""
     for user in CLASS_PRIEST_LIST:
         user_string += str(user) + "\n"
+    if user_string == "":
+        user_string = "No Priest player found."
+
     new_embed = hikari.Embed(
         title='**All Priest Players**',
         description=user_string,
@@ -162,6 +179,9 @@ async def ShowShamanList(ctx:lightbulb.Context):
     user_string = ""
     for user in CLASS_SHAMAN_LIST:
         user_string += str(user) + "\n"
+    if user_string == "":
+        user_string = "No Shaman player found."
+
     new_embed = hikari.Embed(
         title='**All Shaman Players**',
         description=user_string,
@@ -176,6 +196,9 @@ async def ShowWarlockList(ctx:lightbulb.Context):
     user_string = ""
     for user in CLASS_WARLOCK_LIST:
         user_string += str(user) + "\n"
+    if user_string == "":
+        user_string = "No Walock player found."
+
     new_embed = hikari.Embed(
         title='**All Warlock Players**',
         description=user_string,
@@ -190,6 +213,9 @@ async def ShowWarriorList(ctx:lightbulb.Context):
     user_string = ""
     for user in CLASS_WARRIOR_LIST:
         user_string += str(user) + "\n"
+    if user_string == "":
+        user_string = "No Warrior player found."
+
     new_embed = hikari.Embed(
         title='**All Warrior Players**',
         description=user_string,

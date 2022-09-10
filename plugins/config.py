@@ -129,6 +129,7 @@ class WoWClassHandler:
                 CLASS_DK_LIST.append(str(user).strip())
 
     def LoadClassDH(self):
+
         with open(DH_LIST, 'r') as f:
             if not f:
                 f = open(DH_LIST, 'r')            
@@ -182,7 +183,7 @@ class WoWClassHandler:
                 f = open(PRIEST_LIST, 'r')            
                 return print("file not found, new file created")
             for user in f.readlines():
-                PRIEST_LIST.append(str(user).strip())
+                CLASS_PRIEST_LIST.append(str(user).strip())
 
     def LoadClassShaman(self):
         with open(SHAMAN_LIST, 'r') as f:

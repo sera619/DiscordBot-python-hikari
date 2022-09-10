@@ -10,9 +10,6 @@ from hikari import emojis
 from lightbulb.ext import tasks
 from plugins.config import SERA_DISCORD_ID, SERA_ID, TOKEN, LoadRoleList, SHOW_START_EMBED
 
-CLASSICONS = {}
-
-
 class NecroBot:
     def __init__(self, token, discord_id = None, admin_id = None):
         if token == None:
@@ -47,7 +44,7 @@ class NecroBot:
                     f"\nAktuelles Datum und Zeit:\n**{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}**"
                 )
 
-            ### GET ALLL CUSTOM EMOJIS ###
+            ### GET ALL CUSTOM EMOJIS ###
             
             # emojis = await self.bot.rest.fetch_guild_emojis(SERA_DISCORD_ID)
             # for emoji in emojis:
@@ -71,7 +68,7 @@ class NecroBot:
         self.bot.run(
             status= hikari.Status.IDLE,
             activity= hikari.Activity(
-                name="nach geilen Bots",
+                name="/help",
                 type= hikari.ActivityType.WATCHING # --- schaut <name>
         )           
     )
