@@ -37,11 +37,11 @@ class NecroBot:
             if SHOW_START_EMBED == True:
                 await self.bot.rest.create_message(
                     channel=979384595114000384,
-                    content='Bot started\n'
-                    f'Check out ** https://github.com/sera619/DiscordBot-python-hikari **\n\n'
+                    content='NecroBOT started...\n'
+                    f'Check out bot source code @ ** https://github.com/sera619/DiscordBot-python-hikari **\n\n'
                     f'Plugins loaded:\n'
-                    f'**Admin**\n**Commands**\n**Moderator**\n**Music**\n'
-                    f"\nAktuelles Datum und Zeit:\n**{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}**"
+                    f'**Admin**\n**Commands**\n**Moderator**\n**Music**\n**WoW**\n'
+                    f"\nCurrent date & time:\n**{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}**"
                 )
 
             ### GET ALL CUSTOM EMOJIS ###

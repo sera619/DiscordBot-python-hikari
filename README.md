@@ -3,6 +3,7 @@
 ## Description ##
 
 This discordbot is planned to be a musicstreambot aswell chatmoderation and some other that i currently not thinking off.
+All Plugins are modular and not required to load all of them to work propertly.
 
 ## Status ##
 

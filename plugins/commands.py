@@ -63,7 +63,7 @@ async def ping(ctx):
             type=hikari.ActivityType.COMPETING
         )
     )
-    await ctx.respond('Pong!')
+    await ctx.respond('Presence updated!')
 
 
 
