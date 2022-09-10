@@ -59,7 +59,7 @@ async def ping(ctx):
     await plugin.bot.update_presence(
         status=hikari.Status.ONLINE,
         activity=hikari.Activity(
-            name=":keyboard:",
+            name="S3R43o3",
             type=hikari.ActivityType.COMPETING
         )
     )
