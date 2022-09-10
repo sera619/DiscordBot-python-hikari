@@ -9,9 +9,9 @@ TOKEN = os.environ['TOKEN']
 ROLE_DPS_USERS=[]
 ROLE_HPS_USERS=[]
 ROLE_TANK_USERS=[]
-DPS_SAVEPATH = 'dps_user_list.txt'
-TANK_SAVEPATH = 'tank_user_list.txt'
-HPS_SAVEPATH = 'hps_user_list.txt'
+DPS_SAVEPATH = './data/dps_user_list.txt'
+TANK_SAVEPATH = './data/tank_user_list.txt'
+HPS_SAVEPATH = './data/hps_user_list.txt'
 
 CLASS_DK_LIST = []
 CLASS_DH_LIST = []
