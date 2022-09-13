@@ -83,7 +83,7 @@ class NecroBot:
             intents= hikari.Intents.ALL,
             help_slash_command=True,
             ignore_bots=False)
-        self.bot.load_extensions("plugins.commands", "plugins.moderator", "plugins.music", "plugins.admin", "plugins.WoW")
+        self.bot.load_extensions("plugins.commands", "plugins.moderator", "plugins.music", "plugins.admin", "plugins.WoW", 'plugins.calender')
         tasks.load(self.bot)
         miru.load(self.bot)
         return self.bot
