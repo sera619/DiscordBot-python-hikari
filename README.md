@@ -57,7 +57,7 @@ You will need the follow software installed on your system to run this:
 >   pip install lavasnek-rs==0.1.0-alpha.0
 >   ```
 >
-> - For the music plugin in you need the ['Lavalink Server'](https://dsharpplus.github.io/articles/audio/lavalink/setup.html). Follow the installation steps __and save the server in a dictionary called 'lavalink'__
+> - For the music plugin in you need the ['Lavalink Server'](https://dsharpplus.github.io/articles/audio/lavalink/setup.html). Follow the installation steps __and save the server in a dictionary called 'lavalink' in the root directory of this bot__
 >
 > - Create a '.env' File with the follow variables:
 >   - TOKEN='Your DiscordToken'
