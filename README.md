@@ -19,6 +19,7 @@ This features are planned. This list would be edit.
 |:--------|---------:|
 |Musicbot| ✅|
 |Chatmoderation| ✅|
+|Modular Plugin-System|✅|
 |Usercommands|❌ / ✅|
 |Admincommands|❌ / ✅|
 |Interactive Role Selection|✅|
