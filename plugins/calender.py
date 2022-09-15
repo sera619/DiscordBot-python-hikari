@@ -7,25 +7,42 @@ import pickle
 
 
 calendar_plugin = lightbulb.Plugin('calendar', 'Simple calendar system.')
-RAID_TERMS_PATH = './data/raid_terms.txt'
+RAID_TERMS_PATH = './data/raids/raid_terms-'
 
 base_raid_term = {
+    "id":None,
     "date": None,
     "time": None,
-    "raid": None
+    "raid": None,
+    "member": []
 }
 
 
-def SaveRaidTerms(date, time, raid):
+def SaveRaidTerms(id,date, time, raid):
+    base_raid_term['id'] = str(id)
     base_raid_term['date'] = str(date)
     base_raid_term['raid'] = str(raid)
     base_raid_term['time'] = str(time)
-    with open(RAID_TERMS_PATH, 'wb') as f:
+    with open(RAID_TERMS_PATH + str(id) + '.txt', 'wb') as f:
         pickle.dump(base_raid_term, f)
 
+def getRaidMember(raid: dict):
+    raid_member = ""
+    for member in raid['member']:
+        raid_member += "**"+str(member) + "**, "
+    print(raid_member)
+    return raid_member
 
-def LoadRaidTerms():
-    with open(RAID_TERMS_PATH,'rb') as f:
+def setRaidMember(id, member):
+    raid = LoadRaidTerms(id)
+    raid['member'].append(str(member))
+    id = raid['id']
+    with open(RAID_TERMS_PATH + str(id) + ".txt", 'wb') as f:
+        pickle.dump(raid, f)
+    print(f'Member: {str(member)} set to raid: {str(raid["id"])}')
+
+def LoadRaidTerms(id):
+    with open(RAID_TERMS_PATH+str(id)+'.txt','rb') as f:
         loaded_dict = pickle.load(f)
         print(loaded_dict)
         return loaded_dict
@@ -39,17 +56,23 @@ async def calendarCommands(ctx):
 
 
 @calendarCommands.child
+@lightbulb.option('id', 'The UNIQUE ID for the Raid you looking for.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
 @lightbulb.command('show', 'shows the current calendar entrys', auto_defer= True, pass_options = True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-async def showCalendar(ctx: lightbulb.Context):
-    raid_term = LoadRaidTerms()
+async def showCalendar(ctx: lightbulb.Context, id):
+    raid_term = LoadRaidTerms(str(id))
+    id = raid_term['id']
     time = raid_term['time']
     date = raid_term['date']
     raid = raid_term['raid']
+    member = getRaidMember(raid_term)
+    if member == []:
+        member = "No raid member found."
     new_embded = hikari.Embed(
         title='Raid Calendar',
         description='Your current calendar entrys.\n\n'
-        f"\nTime: **{str(time)}**\nDate: **{str(date)}**\nRaid: **{str(raid)}**",
+        f"ID: **{str(id)}**\nTime: **{str(time)}**\nDate: **{str(date)}**\nRaid: **{str(raid)}**\n\nMember: {str(member)}",
+        colour=0xFF8800
     )
     
 
@@ -57,17 +80,35 @@ async def showCalendar(ctx: lightbulb.Context):
 
 
 @calendarCommands.child
-@lightbulb.option('time', 'the time the raid starts.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
-@lightbulb.option('raid', 'wich type of raid to start off', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
-@lightbulb.option('date', 'wich date the raid start', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
-@lightbulb.command('save', 'save new calendar entry', auto_defer = True, pass_options = True)
+@lightbulb.option('time', 'Set the time when the raid starts.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
+@lightbulb.option('raid', 'Set wich type of raid you want to run.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
+@lightbulb.option('date', 'Set wich date when the raid starts.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
+@lightbulb.option('id', 'Set a UNIQUE ID for yor Raid, this is needed for member to join the raid at calender.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
+@lightbulb.command('create', 'Creates a new raid calendar entry', auto_defer = True, pass_options = True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-async def saveRaid(ctx: lightbulb.Context, time, raid, date):
-    SaveRaidTerms(date,time,raid)
-    await ctx.respond('done')
+async def saveRaid(ctx: lightbulb.Context, id, time, raid, date):
+    SaveRaidTerms(id,date,time,raid)
+    setRaidMember(id, "Sera")
+    new_embed = hikari.Embed(
+        title="New Raid entered",
+        description="New Raid was added to calender!\n\n"
+        f"ID: {str(id)}\nRaid: {str(raid)}\nDate: {str(date)}\nTime: {str(time)}",
+        colour=0xFF8800
+    )
+    await ctx.respond(embed=new_embed)
 
-
-
+@calendarCommands.child
+@lightbulb.option('id', 'The UNIQUE ID from the raid you want to join', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
+@lightbulb.command('join', 'Join a raid in the calender', auto_defer= True, pass_options = True)
+@lightbulb.implements(lightbulb.SlashSubCommand)
+async def joinRaid(ctx: lightbulb.Context, id):
+    setRaidMember(id, str(ctx.author))
+    new_embed = hikari.Embed(
+        title='You joined a raid.',
+        description=f'The User: **{ctx.author}** successfully joined the raid: **{str(id)}**',
+        colour=0xFF8800
+    )
+    await ctx.respond(embed=new_embed)
 
 def load(bot):
     bot.add_plugin(calendar_plugin)
