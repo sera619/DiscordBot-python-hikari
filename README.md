@@ -70,9 +70,9 @@ You will need the follow software installed on your system to run this:
 >
 > - If the bot is already joined your discord you have to use '/admin init' __notice: you require adminpermission on the discordserver to use the command__
 
-**Please notice that u need your own token for your application.**
+### Please notice that u need your own token for your application ###
 
-**Sorry that i dont give instruction here but it exists so many tutorials for this im sure you will find the solution quickly**
+## Sorry that i dont give instruction here but it exists so many tutorials for this im sure you will find the solution quickly ##
 
 ### Screenshots ###
 
@@ -84,3 +84,4 @@ You will need the follow software installed on your system to run this:
 > !['rolelist'](image/screenshots/rolelist.png)
 > !['dk list'](image/screenshots/dk_list.png)
 > !['create raid'](image/screenshots/raid_create.png)
+>
