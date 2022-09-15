@@ -13,7 +13,7 @@ Feel free to edit.
 
 ### Features ###
 
-This features are planned. This list would be edit.
+This features are planned. This list would be edit. If you would like request a feature just open a new [Issue](https://github.com/sera619/DiscordBot-python-hikari/issues).
 
 |Feature|Implemented|
 |:--------|---------:|
