@@ -76,10 +76,10 @@ You will need the follow software installed on your system to run this:
 ### Screenshots ###
 
 > !['information'](image/screenshots/info.png)
+> !['join raid'](image/screenshots/raid_join.png)
 > !['admin commands'](image/screenshots/admin_commands.png)
 > !['wow class'](image/screenshots/wow_class.png)
 > !['rolecheck'](image/screenshots/rolecheck.png)
 > !['rolelist'](image/screenshots/rolelist.png)
-> !['create raid'](image/screenshots/raid_create.png)
-> !['join raid'](image/screenshots/raid_join.png)
 > !['dk list'](image/screenshots/dk_list.png)
+> !['create raid'](image/screenshots/raid_create.png)
