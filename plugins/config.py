@@ -331,7 +331,7 @@ class WoWClassHandler:
         print(f"new paladin player: {new_dps} added to list")
         return True
 
-    def AddClassPriest(self,new_dps):
+    def AddClassPriest(self,new_dps) -> bool:
         if not new_dps or new_dps == "":
             print("Error no user found")
             return False
@@ -347,7 +347,7 @@ class WoWClassHandler:
         print(f"new priest player: {new_dps} added to list")
         return True
 
-    def AddClassRogue(self,new_dps):
+    def AddClassRogue(self,new_dps) -> bool:
         if not new_dps or new_dps == "":
             print("Error no user found")
             return False
@@ -364,7 +364,7 @@ class WoWClassHandler:
         print(f"new rogue player: {new_dps} added to list")
         return True
 
-    def AddClassShaman(self,new_dps):
+    def AddClassShaman(self,new_dps) -> bool:
         if not new_dps or new_dps == "":
             print("Error no user found")
             return False
@@ -380,7 +380,7 @@ class WoWClassHandler:
         print(f"new shaman player: {new_dps} added to list")
         return True
 
-    def AddClassWarlock(self,new_dps):
+    def AddClassWarlock(self,new_dps) -> bool:
         if not new_dps or new_dps == "":
             print("Error no user found")
             return False
@@ -396,7 +396,7 @@ class WoWClassHandler:
         print(f"new warlock player: {new_dps} added to list")
         return True
 
-    def AddClassWarrior(self,new_dps):
+    def AddClassWarrior(self,new_dps) -> bool:
         if not new_dps or new_dps == "":
             print("Error no user found")
             return False
