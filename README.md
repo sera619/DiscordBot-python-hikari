@@ -72,7 +72,7 @@ You will need the follow software installed on your system to run this:
 
 ### Please notice that u need your own token for your application ###
 
-## Sorry that i dont give instruction here but it exists so many tutorials for this im sure you will find the solution quickly ##
+### Sorry that i dont give instruction here but it exists so many tutorials for this im sure you will find the solution quickly ###
 
 ### Screenshots ###
 
