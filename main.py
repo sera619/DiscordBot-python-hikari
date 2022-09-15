@@ -63,6 +63,22 @@ class NecroBot:
             await self.bot.d.aio_session.close()
             self.bot.d.process_pool.shutdown(wait=True)
 
+        @self.bot.command
+        @lightbulb.command('info', "Shows Information about Necro BOT.")
+        @lightbulb.implements(lightbulb.SlashCommand)
+        async def showInformation(ctx: lightbulb.Context):
+            plugin_string = ""
+            for plugin in self.bot.plugins:
+                plugin_string += plugin +"\n"
+            new_embed = hikari.Embed(
+                title='**Necro BOT Information**',
+                description=f'Check out bot source code @ ** https://github.com/sera619/DiscordBot-python-hikari **\n\n'
+                    f'Plugins loaded:\n'
+                    f'**{plugin_string}**\n'
+                    f"\nCurrent date & time:\n**{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}**",
+                colour= 0xFF8800
+            )
+            await ctx.respond(embed=new_embed)
 
     def startBot(self):
         self.bot.run(
