@@ -3,7 +3,7 @@ import miru
 import lightbulb
 import os
 import pickle
-
+from main import LOGO_URL
 
 
 calendar_plugin = lightbulb.Plugin('calendar', 'Simple calendar system.')
@@ -23,12 +23,16 @@ def SaveRaidTerms(id,date, time, raid):
     base_raid_term['date'] = str(date)
     base_raid_term['raid'] = str(raid)
     base_raid_term['time'] = str(time)
+    base_raid_term['member'] = []
     with open(RAID_TERMS_PATH + str(id) + '.txt', 'wb') as f:
         pickle.dump(base_raid_term, f)
 
 def getRaidMember(raid: dict):
     raid_member = ""
     for member in raid['member']:
+        if member == []:
+            raid_member = "**Currently no member joined**"
+            break
         raid_member += "**"+str(member) + "**, "
     print(raid_member)
     return raid_member
@@ -80,10 +84,9 @@ async def showCalendar(ctx: lightbulb.Context, id):
         f"ID: **{str(id)}**\nTime: **{str(time)}**\nDate: **{str(date)}**\nRaid: **{str(raid)}**\n\nMember: {str(member)}",
         colour=0xFF8800
     )
-    
-
+    new_embded.set_thumbnail(LOGO_URL)
     await ctx.respond(embed=new_embded)
-
+    return
 
 @calendarCommands.child
 @lightbulb.option('time', 'Set the time when the raid starts.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
@@ -100,7 +103,9 @@ async def saveRaid(ctx: lightbulb.Context, id, time, raid, date):
         f"ID: {str(id)}\nRaid: {str(raid)}\nDate: {str(date)}\nTime: {str(time)}",
         colour=0xFF8800
     )
+    new_embed.set_thumbnail(LOGO_URL)
     await ctx.respond(embed=new_embed)
+    return
 
 @calendarCommands.child
 @lightbulb.option('id', 'The UNIQUE ID from the raid you want to join', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
@@ -113,12 +118,14 @@ async def joinRaid(ctx: lightbulb.Context, id):
             description=f'The User: **{ctx.author}** successfully joined the raid-id: **{str(id)}**',
             colour=0xFF8800
         )
+        new_embed.set_thumbnail(LOGO_URL)
         await ctx.respond(embed=new_embed)
         return
     error_embed = hikari.Embed(
         title='Error: User exists',
         description=f'The user: **{ctx.author}** already exists in raid-id: **{id}**'
     )
+    error_embed.set_thumbnail(LOGO_URL)
     await ctx.respond(embed=error_embed)
     return
 
