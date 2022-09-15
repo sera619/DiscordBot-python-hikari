@@ -75,7 +75,8 @@ class NecroBot:
             new_embed = hikari.Embed(
                 title='**Necro BOT Information**',
                 description=f'Click the title-link above to check out the source code on my Github.\n\n'
-                    f'**Plugins loaded:**\n'
+                    f'***PLEASE NOTICE:***\n*If this is your first time running this bot please use the command* **/admin init** to start the first initialization.\n'
+                    f'\n\n**Plugins loaded:**\n'
                     f'{plugin_string}\n'
                     f"**Current date & time:**\n{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}",
                 colour= 0xFF8800,
@@ -83,7 +84,7 @@ class NecroBot:
             )
             new_embed.set_thumbnail(LOGO_URL)
             await ctx.respond(embed=new_embed)
-            return
+            
 
     def startBot(self):
         self.bot.run(
