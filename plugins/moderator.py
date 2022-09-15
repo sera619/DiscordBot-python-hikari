@@ -1,9 +1,12 @@
 import datetime
+import asyncio
 import hikari
 import lightbulb
 from .commands import checkAdmin
 
 moderator_plugin = lightbulb.Plugin('moderator', 'All chat moderation relevant')
+
+
 
 # Create Base Command Group
 
@@ -18,17 +21,18 @@ async def moderation_commands(ctx):
 @moderation_commands.child
 @lightbulb.option('title', 'The title of the new banner.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
 @lightbulb.option('text', 'The message of the new banner.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
-@lightbulb.option('thumbnail', 'Add a thumbnail image to new banner.', modifier=lightbulb.OptionModifier.CONSUME_REST,required=False, autocomplete=True)
+@lightbulb.option('thumbnailurl', 'Add a thumbnail image to new banner.', modifier=lightbulb.OptionModifier.CONSUME_REST,required=False, autocomplete=True)
 @lightbulb.command('banner', 'Create a embed (Banner looklike) message.', auto_defer = True, pass_options = True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-async def new_banner(ctx: lightbulb.Context, title: str, text:str, thumbnail:str):
+async def new_banner(ctx: lightbulb.Context, title: str, text:str, thumbnailurl:str):
     assert (ctx.get_guild)
     new_embed = hikari.Embed(
         title=title,
         description=text,
     ) 
-    if thumbnail is not None:
-        new_embed.thumbnail = thumbnail
+    if thumbnailurl !=  "":
+        new_embed.set_thumbnail(thumbnailurl)
+
     await moderator_plugin.bot.rest.create_message(embed=new_embed, channel=ctx.channel_id)
     return await ctx.respond("Banner erstellt")
 
