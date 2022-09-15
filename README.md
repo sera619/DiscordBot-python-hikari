@@ -23,12 +23,15 @@ This features are planned. This list would be edit.
 |Admincommands|❌ / ✅|
 |Interactive Role Selection|✅|
 |World of Warcraft Class/Role List|✅|
+|Interactive Calender|✅|
+
 ## Requirements/Installation ##
 
 You will need the follow software installed on your system to run this:
 
-##### You can click the links to get the packages on pypi.org ######
-
+>*You can click the links to get the packages on pypi.org*
+>
+> - Download or clone the whole project.
 > - Python version 3.9.x or higher
 > - Python package ['Hikari'](https://pypi.org/project/hikari/)
 >
@@ -53,8 +56,30 @@ You will need the follow software installed on your system to run this:
 >   ```cmd
 >   pip install lavasnek-rs==0.1.0-alpha.0
 >   ```
-
-To install just download or clone the whole project.
+>
+> - For the music plugin in you need the ['Lavalink Server'](https://dsharpplus.github.io/articles/audio/lavalink/setup.html). Follow the installation steps __and save the server in a dictionary called 'lavalink'__
+>
+> - Create a '.env' File with the follow variables:
+>   - TOKEN='Your DiscordToken'
+>   - SERA_DISCORD_ID= 'YOUR DISCORD GUILD/CHANNAL ID'
+>   - SERA_ID='YOUR DISOCRD USER ID'
+>   - LAVALINK_SERVER=127.0.0.1
+>   - LAVALINK_PORT=2333
+>   - LAVALINK_PASSWORD=kekskeks
+>
+> - If the bot is already joined your discord you have to use '/admin init' __notice: you require adminpermission on the discordserver to use the command__
 
 **Please notice that u need your own token for your application.**
+
 **Sorry that i dont give instruction here but it exists so many tutorials for this im sure you will find the solution quickly**
+
+### Screenshots ###
+
+> !['information'](image/screenshots/info.png)
+> !['admin commands'](image/screenshots/admin_commands.png)
+> !['wow class'](image/screenshots/wow_class.png)
+> !['rolecheck'](image/screenshots/rolecheck.png)
+> !['rolelist'](image/screenshots/rolelist.png)
+> !['create raid'](image/screenshots/raid_create.png)
+> !['join raid'](image/screenshots/raid_join.png)
+> !['dk list'](image/screenshots/dk_list.png)
