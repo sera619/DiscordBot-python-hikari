@@ -74,10 +74,11 @@ class NecroBot:
                 plugin_string += plugin.capitalize() +"\n"
             new_embed = hikari.Embed(
                 title='**Necro BOT Information**',
-                description=f'Click the title-link above to check out the source code on my Github.\n\n'
+                description=f'*Click the title-link above to check out the source code on my Github.*\n\n'
                     f'***PLEASE NOTICE:***\n*If this is your first time running this bot please use the command* **/admin init** to start the first initialization.\n'
                     f'\n\n**Plugins loaded:**\n'
-                    f'{plugin_string}\n'
+                    f'{plugin_string}'
+                    f'\n*For more information about specific plugin commands consult the help section with* **/help "plugin-name"** *(example: /help wow)*\n\n'
                     f"**Current date & time:**\n{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}",
                 colour= 0xFF8800,
                 url= "https://github.com/sera619/DiscordBot-python-hikari"
