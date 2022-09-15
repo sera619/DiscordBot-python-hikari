@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+from re import U
 import aiohttp
 import concurrent.futures
 
@@ -9,13 +10,14 @@ import miru
 from hikari import emojis
 from lightbulb.ext import tasks
 from plugins.config import SERA_DISCORD_ID, SERA_ID, TOKEN, LoadRoleList, SHOW_START_EMBED
-
+LOGO_URL = './image/logo.jpg'
 class NecroBot:
     def __init__(self, token, discord_id = None, admin_id = None):
         if token == None:
             print("ERROR: SET A DISCORD TOKEN!")
             exit(1)
         self.TOKEN = token
+        
         if discord_id != None:
             self.SERA_DISCORD_ID = discord_id
         if admin_id != None:
@@ -64,21 +66,24 @@ class NecroBot:
             self.bot.d.process_pool.shutdown(wait=True)
 
         @self.bot.command
-        @lightbulb.command('info', "Shows Information about Necro BOT.")
+        @lightbulb.command('botinfo', "Shows Information about Necro BOT.")
         @lightbulb.implements(lightbulb.SlashCommand)
         async def showInformation(ctx: lightbulb.Context):
             plugin_string = ""
             for plugin in self.bot.plugins:
-                plugin_string += plugin +"\n"
+                plugin_string += plugin.capitalize() +"\n"
             new_embed = hikari.Embed(
                 title='**Necro BOT Information**',
-                description=f'Check out bot source code @ ** https://github.com/sera619/DiscordBot-python-hikari **\n\n'
-                    f'Plugins loaded:\n'
-                    f'**{plugin_string}**\n'
-                    f"\nCurrent date & time:\n**{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}**",
-                colour= 0xFF8800
+                description=f'Click the title-link above to check out the source code on my Github.\n\n'
+                    f'**Plugins loaded:**\n'
+                    f'{plugin_string}\n'
+                    f"**Current date & time:**\n{datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}",
+                colour= 0xFF8800,
+                url= "https://github.com/sera619/DiscordBot-python-hikari"
             )
+            new_embed.set_thumbnail(LOGO_URL)
             await ctx.respond(embed=new_embed)
+            return
 
     def startBot(self):
         self.bot.run(
