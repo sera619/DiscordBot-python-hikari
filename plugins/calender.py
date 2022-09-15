@@ -35,11 +35,17 @@ def getRaidMember(raid: dict):
 
 def setRaidMember(id, member):
     raid = LoadRaidTerms(id)
+    for mem in raid['member']:
+        if mem == member:
+            print('Error User exists')
+            return False
     raid['member'].append(str(member))
     id = raid['id']
+
     with open(RAID_TERMS_PATH + str(id) + ".txt", 'wb') as f:
         pickle.dump(raid, f)
     print(f'Member: {str(member)} set to raid: {str(raid["id"])}')
+    return True
 
 def LoadRaidTerms(id):
     with open(RAID_TERMS_PATH+str(id)+'.txt','rb') as f:
@@ -67,7 +73,7 @@ async def showCalendar(ctx: lightbulb.Context, id):
     raid = raid_term['raid']
     member = getRaidMember(raid_term)
     if member == []:
-        member = "No raid member found."
+        member = "No raid member currently joined the raid."
     new_embded = hikari.Embed(
         title='Raid Calendar',
         description='Your current calendar entrys.\n\n'
@@ -88,9 +94,8 @@ async def showCalendar(ctx: lightbulb.Context, id):
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def saveRaid(ctx: lightbulb.Context, id, time, raid, date):
     SaveRaidTerms(id,date,time,raid)
-    setRaidMember(id, "Sera")
     new_embed = hikari.Embed(
-        title="New Raid entered",
+        title="New raid created!",
         description="New Raid was added to calender!\n\n"
         f"ID: {str(id)}\nRaid: {str(raid)}\nDate: {str(date)}\nTime: {str(time)}",
         colour=0xFF8800
@@ -102,13 +107,20 @@ async def saveRaid(ctx: lightbulb.Context, id, time, raid, date):
 @lightbulb.command('join', 'Join a raid in the calender', auto_defer= True, pass_options = True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def joinRaid(ctx: lightbulb.Context, id):
-    setRaidMember(id, str(ctx.author))
-    new_embed = hikari.Embed(
-        title='You joined a raid.',
-        description=f'The User: **{ctx.author}** successfully joined the raid: **{str(id)}**',
-        colour=0xFF8800
+    if setRaidMember(id, str(ctx.author)) == True:
+        new_embed = hikari.Embed(
+            title='You joined a raid.',
+            description=f'The User: **{ctx.author}** successfully joined the raid-id: **{str(id)}**',
+            colour=0xFF8800
+        )
+        await ctx.respond(embed=new_embed)
+        return
+    error_embed = hikari.Embed(
+        title='Error: User exists',
+        description=f'The user: **{ctx.author}** already exists in raid-id: **{id}**'
     )
-    await ctx.respond(embed=new_embed)
+    await ctx.respond(embed=error_embed)
+    return
 
 def load(bot):
     bot.add_plugin(calendar_plugin)
