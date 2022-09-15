@@ -219,7 +219,7 @@ class WoWClassHandler:
 
     # WoW Class list add
 
-    def AddClassDH(self,new_dps):
+    def AddClassDH(self,new_dps) -> bool:
         if not new_dps or new_dps == "":
             print("Error no user found")
             return False
@@ -235,7 +235,7 @@ class WoWClassHandler:
         print(f"new dh player: {new_dps} added to list")
         return True
 
-    def AddClassDK(self,new_dps):
+    def AddClassDK(self,new_dps) -> bool:
         if not new_dps or new_dps == "":
             print("Error no user found")
             return False
@@ -267,7 +267,7 @@ class WoWClassHandler:
         print(f"new druid player: {new_dps} added to list")
         return True
 
-    def AddClassHunter(self,new_dps):
+    def AddClassHunter(self,new_dps) -> bool:
         if not new_dps or new_dps == "":
             print("Error no user found")
             return False
@@ -283,7 +283,7 @@ class WoWClassHandler:
         print(f"new hunter player: {new_dps} added to list")
         return True
 
-    def AddClassMage(self,new_dps):
+    def AddClassMage(self,new_dps)-> bool:
         if not new_dps or new_dps == "":
             print("Error no user found")
             return False
