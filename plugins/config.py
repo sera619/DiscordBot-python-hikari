@@ -25,6 +25,12 @@ CLASS_ROGUE_LIST = []
 CLASS_SHAMAN_LIST = []
 CLASS_WARLOCK_LIST = []
 CLASS_WARRIOR_LIST = []
+COLORS = {
+    'red': 0xC80000,
+    'blue':0x0001a8,
+    'green':0x009a00,
+    'orange': 0xFF8800
+}
 
 DK_LIST = './data/dk_list.txt'
 DH_LIST = './data/dh_list.txt'
