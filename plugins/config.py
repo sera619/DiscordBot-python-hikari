@@ -25,12 +25,7 @@ CLASS_ROGUE_LIST = []
 CLASS_SHAMAN_LIST = []
 CLASS_WARLOCK_LIST = []
 CLASS_WARRIOR_LIST = []
-COLORS = {
-    'red': 0xC80000,
-    'blue':0x0001a8,
-    'green':0x009a00,
-    'orange': 0xFF8800
-}
+
 
 DK_LIST = './data/dk_list.txt'
 DH_LIST = './data/dh_list.txt'
@@ -46,6 +41,15 @@ WARLOCK_LIST = './data/warlock_list.txt'
 WARRIOR_LIST = './data/Warrior_list.txt'
 
 SHOW_START_EMBED = False
+
+class COLORS:
+    def __init__(self) -> None:
+        super().__init__()
+        self.red = 0xC80000
+        self.blue = 0x0001a8
+        self.green=0x009a00
+        self.orange= 0xFF8800
+
 
 # adding new character to DPS, HPS, Tank role
 @staticmethod
