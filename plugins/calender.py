@@ -4,7 +4,7 @@ import lightbulb
 import os
 import pickle
 from main import LOGO_URL
-
+from plugins.config import COLORS
 
 calendar_plugin = lightbulb.Plugin('calendar', 'Simple calendar system.')
 RAID_TERMS_PATH = './data/raids/raid_terms-'
@@ -133,14 +133,15 @@ async def joinRaid(ctx: lightbulb.Context, id):
         new_embed = hikari.Embed(
             title='You joined a raid.',
             description=f'The User: **{ctx.author}** successfully joined the raid-id: **{str(id)}**',
-            colour=0xFF8800
+            colour=COLORS['green']
         )
         new_embed.set_thumbnail(LOGO_URL)
         await ctx.respond(embed=new_embed)
         return
     error_embed = hikari.Embed(
         title='Error: User exists',
-        description=f'The user: **{ctx.author}** already exists in raid-id: **{id}**'
+        description=f'The user: **{ctx.author}** already exists in raid-id: **{id}**',
+        colour= COLORS['red']
     )
     error_embed.set_thumbnail(LOGO_URL)
     await ctx.respond(embed=error_embed)
