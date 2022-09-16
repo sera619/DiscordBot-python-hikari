@@ -1,3 +1,5 @@
+from array import array
+from operator import contains
 import hikari
 import miru
 import lightbulb
@@ -17,6 +19,7 @@ base_raid_term = {
     "member": []
 }
 
+colors = COLORS()
 
 def SaveRaidTerms(id,date, time, raid):
     base_raid_term['id'] = str(id)
@@ -44,15 +47,17 @@ def deleteRaid(id) -> bool:
         return True
     return False
 
-def getRaidEvents():
+def getRaidEvents() -> array:
     files = []
     formated_files = []
     for (dirpath, dirnames, filenames) in os.walk(RAID_DIR):
         files.extend(filenames)
-        for name in files:
-            formatted_name = name[11:-4]
-            formated_files.append(formatted_name)
-    return formated_files    
+    for name in files:
+        formatted_name = name[11:-4]
+        formated_files.append(formatted_name)
+    return formated_files
+
+
 
 def setRaidMember(id, member):
     raid = LoadRaidTerms(id)
@@ -99,7 +104,7 @@ async def showCalendar(ctx: lightbulb.Context, id):
         title='Raid Calendar',
         description='Your current calendar entrys.\n\n'
         f"ID: **{str(id)}**\nTime: **{str(time)}**\nDate: **{str(date)}**\nRaid: **{str(raid)}**\n\nMember: {str(member)}",
-        colour=0xFF8800
+        colour= colors.green
     )
     new_embded.set_thumbnail(LOGO_URL)
     await ctx.respond(embed=new_embded)
@@ -118,7 +123,7 @@ async def saveRaid(ctx: lightbulb.Context, id, time, raid, date):
         title="New raid created!",
         description="New Raid was added to calender!\n\n"
         f"ID: {str(id)}\nRaid: {str(raid)}\nDate: {str(date)}\nTime: {str(time)}",
-        colour=0xFF8800
+        colour=colors.orange
     )
     new_embed.set_thumbnail(LOGO_URL)
     await ctx.respond(embed=new_embed)
@@ -133,7 +138,7 @@ async def joinRaid(ctx: lightbulb.Context, id):
         new_embed = hikari.Embed(
             title='You joined a raid.',
             description=f'The User: **{ctx.author}** successfully joined the raid-id: **{str(id)}**',
-            colour=COLORS['green']
+            colour=colors.green
         )
         new_embed.set_thumbnail(LOGO_URL)
         await ctx.respond(embed=new_embed)
@@ -141,7 +146,7 @@ async def joinRaid(ctx: lightbulb.Context, id):
     error_embed = hikari.Embed(
         title='Error: User exists',
         description=f'The user: **{ctx.author}** already exists in raid-id: **{id}**',
-        colour= COLORS['red']
+        colour= colors.red
     )
     error_embed.set_thumbnail(LOGO_URL)
     await ctx.respond(embed=error_embed)
@@ -154,13 +159,14 @@ async def showAllRaids(ctx: lightbulb.Context):
     raid_ids = getRaidEvents()
     raid_string = "" 
     for id in raid_ids:
-        raid_string += id + "\n"
+        raid_string += "**"+ str(id) + "**\n"
 
     new_embed = hikari.Embed(
         title="All current raid entry.",
-        description="**The follow entrys exists:**\n"
+        description="*The follow entrys exists:*\n\n"
         f'{raid_string}'
-        f'\n\n *if you need explicit information about a raid type* **/calender show [raid-id]** *without "[]"!*'
+        f'\n\n *if you need explicit information about a raid type* **/calender show [raid-id]** *without "[]"!*',
+        colour= colors.green
     )
 
     new_embed.set_thumbnail(LOGO_URL)
