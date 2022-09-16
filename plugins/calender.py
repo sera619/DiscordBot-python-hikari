@@ -8,7 +8,7 @@ from main import LOGO_URL
 
 calendar_plugin = lightbulb.Plugin('calendar', 'Simple calendar system.')
 RAID_TERMS_PATH = './data/raids/raid_terms-'
-
+RAID_DIR = './data/raids'
 base_raid_term = {
     "id":None,
     "date": None,
@@ -36,6 +36,23 @@ def getRaidMember(raid: dict):
         raid_member += "**"+str(member) + "**, "
     print(raid_member)
     return raid_member
+
+def deleteRaid(id) -> bool:
+    file_path = RAID_TERMS_PATH+str(id)+'.txt'
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        return True
+    return False
+
+def getRaidEvents():
+    files = []
+    formated_files = []
+    for (dirpath, dirnames, filenames) in os.walk(RAID_DIR):
+        files.extend(filenames)
+        for name in files:
+            formatted_name = name[11:-4]
+            formated_files.append(formatted_name)
+    return formated_files    
 
 def setRaidMember(id, member):
     raid = LoadRaidTerms(id)
@@ -128,6 +145,39 @@ async def joinRaid(ctx: lightbulb.Context, id):
     error_embed.set_thumbnail(LOGO_URL)
     await ctx.respond(embed=error_embed)
     return
+
+@calendarCommands.child
+@lightbulb.command('showup', 'Shows ID´s from all entrys in the Raid Calender.', auto_defer = True)
+@lightbulb.implements(lightbulb.SlashSubCommand)
+async def showAllRaids(ctx: lightbulb.Context):
+    raid_ids = getRaidEvents()
+    raid_string = "" 
+    for id in raid_ids:
+        raid_string += id + "\n"
+
+    new_embed = hikari.Embed(
+        title="All current raid entry.",
+        description="**The follow entrys exists:**\n"
+        f'{raid_string}'
+        f'\n\n *if you need explicit information about a raid type* **/calender show [raid-id]** *without "[]"!*'
+    )
+
+    new_embed.set_thumbnail(LOGO_URL)
+    await ctx.respond(embed=new_embed)
+
+
+@calendarCommands.child
+@lightbulb.option('id', 'The UNIQUE ID from the raid you want to delete!',  modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
+@lightbulb.command('delete', 'Shows ID´s from all entrys in the Raid Calender.', auto_defer = True, pass_options = True)
+@lightbulb.implements(lightbulb.SlashSubCommand)
+async def deleteRaidEntry(ctx: lightbulb.Context, id):
+    if deleteRaid(id) == True:
+        await ctx.respond(f'Raid with ID: **{id}** successfully deleted.')
+    else:
+        await ctx.respond(f'Something went wrong, Raid with ID: **{id}** not found!')
+
+
+
 
 def load(bot):
     bot.add_plugin(calendar_plugin)
