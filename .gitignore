@@ -2,3 +2,5 @@ __pycache__
 .env
 env-discordHikari
 lavalink
+bot-set.txt
+raid_terms-1.txt
