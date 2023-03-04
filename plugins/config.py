@@ -6,6 +6,22 @@ load_dotenv()
 SERA_ID = os.environ['SERA_ID']
 SERA_DISCORD_ID = os.environ['SERA_DISCORD_ID']
 TOKEN = os.environ['TOKEN']
+COMMON_CHANNEL_ID = os.environ['COMMON_CHANNEL_ID']
+
+SHOW_START_EMBED = False
+
+def load_bot_setting():
+    global SHOW_START_EMBED
+    with open('./data/bot-set.txt', 'r') as f:
+        dat = f.read()
+    if int(dat) == 1:
+        SHOW_START_EMBED = True
+        return SHOW_START_EMBED
+
+    else:
+        SHOW_START_EMBED = False
+        return SHOW_START_EMBED
+
 ROLE_DPS_USERS=[]
 ROLE_HPS_USERS=[]
 ROLE_TANK_USERS=[]
@@ -40,8 +56,6 @@ SHAMAN_LIST = './data/shaman_list.txt'
 WARLOCK_LIST = './data/warlock_list.txt'
 WARRIOR_LIST = './data/Warrior_list.txt'
 
-SHOW_START_EMBED = False
-
 class COLORS:
     def __init__(self) -> None:
         super().__init__()
@@ -50,41 +64,63 @@ class COLORS:
         self.green=0x009a00
         self.orange= 0xFF8800
 
-
 # adding new character to DPS, HPS, Tank role
-@staticmethod
 def AddTankRole(new_tank):
     if not new_tank or new_tank == "":
         return print("Error no user found")
     ROLE_TANK_USERS.append(new_tank)
-    with open(TANK_SAVEPATH, 'w') as f:
-        for user in ROLE_TANK_USERS:
-            f.write(user+'\n')
+    SaveRoleList(ROLE_TANK_USERS, TANK_SAVEPATH)
     return print(f"new tank player: {new_tank} add to list")
 
-@staticmethod
 def AddHpsRole(new_hps):
     if not new_hps or new_hps == "":
         return print("Error no user found")
     ROLE_HPS_USERS.append(new_hps)
-    with open(HPS_SAVEPATH, 'w') as f:
-        for user in ROLE_HPS_USERS:
-            f.write(user+'\n')
+    SaveRoleList(ROLE_HPS_USERS, HPS_SAVEPATH)
     return print(f"new hps player: {new_hps} add to list")
 
-@staticmethod
 def AddDpsRole(new_dps):
     if not new_dps or new_dps == "":
         return print("Error no user found")
     ROLE_DPS_USERS.append(new_dps)
-
-    with open(DPS_SAVEPATH,'w') as f:
-        for user in ROLE_DPS_USERS:
-            f.write(user +"\n")
+    SaveRoleList(ROLE_DPS_USERS, DPS_SAVEPATH)
     return print(f"new dps player: {new_dps} added to list")
 
+def RemoveDpsRole(player):
+    if not player:
+        return print("Error no user found")
+    for user in ROLE_DPS_USERS:
+        if user == str(player):
+            ROLE_DPS_USERS.remove(user)
+            break
+    SaveRoleList(ROLE_DPS_USERS, DPS_SAVEPATH)
+
+def RemoveHpsRole(player):
+    if not player:
+        return print("Erro no user found")
+    for user in ROLE_HPS_USERS:
+        if user == str(player):
+            ROLE_HPS_USERS.remove(user)
+            break
+    SaveRoleList(ROLE_HPS_USERS, HPS_SAVEPATH)
+
+def RemoveTankRole(player):
+    if not player:
+        return print("Error no user found")
+    for user in ROLE_TANK_USERS:
+        if user == str(player):
+            ROLE_TANK_USERS.remove(user)
+            break
+    SaveRoleList(ROLE_TANK_USERS, TANK_SAVEPATH)
+
+def SaveRoleList(list, path):
+    with open(path, 'W') as f:
+        for user in list:
+            f.write(user + '\n')
+    return print("Rolelist saved")
+
+
 # load and save functions for dps,hps & tank list 
-@staticmethod
 def LoadRoleList():
     with open(DPS_SAVEPATH, 'r') as f:
         if not f:
@@ -110,7 +146,6 @@ def LoadRoleList():
     """
     """
 
-
 # WoW Ingame Classlist loading
 class WoWClassHandler:
     def __init__(self):
@@ -130,6 +165,12 @@ class WoWClassHandler:
         self.LoadClassWarlock()
         self.LoadClassWarrior()
 
+    def SaveList(self, list, path):
+        with open(path, "w") as f:
+            for user in list:
+                f.write(user + '\n')
+        return print(f"Classlist saved")
+
     def LoadClassDK(self):
         with open(DK_LIST, 'r') as f:
             if not f:
@@ -139,7 +180,6 @@ class WoWClassHandler:
                 CLASS_DK_LIST.append(str(user).strip())
 
     def LoadClassDH(self):
-
         with open(DH_LIST, 'r') as f:
             if not f:
                 f = open(DH_LIST, 'r')            
@@ -206,7 +246,8 @@ class WoWClassHandler:
     def LoadClassRogue(self):
         with open(ROGUE_LIST, 'r') as f:
             if not f:
-                f = open(ROGUE_LIST, 'r')            
+                f = open(ROGUE_LIST, 'w')
+                f.close()            
                 return print("file not found, new file created")
             for user in f.readlines():
                 CLASS_ROGUE_LIST.append(str(user).strip())
@@ -214,7 +255,8 @@ class WoWClassHandler:
     def LoadClassWarrior(self):
         with open(WARRIOR_LIST, 'r') as f:
             if not f:
-                f = open(WARRIOR_LIST, 'r')
+                f = open(WARRIOR_LIST, 'w')
+                f.close()
                 return print("file not found, new file created")
             for user in f.readlines():
                 CLASS_WARRIOR_LIST.append(str(user).strip())
@@ -222,7 +264,8 @@ class WoWClassHandler:
     def LoadClassWarlock(self):
         with open(WARLOCK_LIST, 'r') as f:
             if not f:
-                f = open(WARLOCK_LIST, 'r')            
+                f = open(WARLOCK_LIST, 'w')
+                f.close()            
                 return print("file not found, new file created")
             for user in f.readlines():
                 CLASS_WARLOCK_LIST.append(str(user).strip())
@@ -239,9 +282,7 @@ class WoWClassHandler:
                 return False
         CLASS_DH_LIST.append(str(new_dps))
 
-        with open(DH_LIST,'w') as f:
-            for user in CLASS_DH_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_DH_LIST, DH_LIST)
         print(f"new dh player: {new_dps} added to list")
         return True
 
@@ -255,9 +296,7 @@ class WoWClassHandler:
                 return False
         CLASS_DK_LIST.append(str(new_dps))
 
-        with open(DK_LIST,'w') as f:
-            for user in CLASS_DK_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_DK_LIST, DK_LIST)
         print(f"new dk player: {new_dps} added to list")
         return True
 
@@ -271,9 +310,7 @@ class WoWClassHandler:
                 return False
         CLASS_DRUID_LIST.append(str(new_dps))
 
-        with open(DRUID_LIST,'w') as f:
-            for user in CLASS_DRUID_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_DRUID_LIST, DRUID_LIST)
         print(f"new druid player: {new_dps} added to list")
         return True
 
@@ -287,9 +324,7 @@ class WoWClassHandler:
                 return False
         CLASS_HUNTER_LIST.append(str(new_dps))
 
-        with open(HUNTER_LIST,'w') as f:
-            for user in CLASS_HUNTER_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_HUNTER_LIST, HUNTER_LIST)
         print(f"new hunter player: {new_dps} added to list")
         return True
 
@@ -303,9 +338,7 @@ class WoWClassHandler:
                 return False
         CLASS_MAGE_LIST.append(str(new_dps))
 
-        with open(MAGE_LIST,'w') as f:
-            for user in CLASS_MAGE_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_MAGE_LIST, MAGE_LIST)
         print(f"new mage player: {new_dps} added to list")
         return True
 
@@ -319,9 +352,7 @@ class WoWClassHandler:
                 return False
         CLASS_MONK_LIST.append(str(new_dps))
 
-        with open(MONK_LIST,'w') as f:
-            for user in CLASS_MONK_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_MONK_LIST, MONK_LIST)
         print(f"new monk player: {new_dps} added to list")
         return True
 
@@ -335,9 +366,7 @@ class WoWClassHandler:
                 return False
         CLASS_PALADIN_LIST.append(str(new_dps))
 
-        with open(PALADIN_LIST,'w') as f:
-            for user in CLASS_PALADIN_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_PALADIN_LIST, PALADIN_LIST)
         print(f"new paladin player: {new_dps} added to list")
         return True
 
@@ -350,10 +379,7 @@ class WoWClassHandler:
                 print(f"User {new_dps} already exist in Priest")
                 return False
         CLASS_PRIEST_LIST.append(str(new_dps))
-
-        with open(PRIEST_LIST,'w') as f:
-            for user in CLASS_PRIEST_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_PRIEST_LIST, PRIEST_LIST)
         print(f"new priest player: {new_dps} added to list")
         return True
 
@@ -368,9 +394,7 @@ class WoWClassHandler:
                 return False
         CLASS_ROGUE_LIST.append(str(new_dps))
 
-        with open(ROGUE_LIST,'w') as f:
-            for user in CLASS_ROGUE_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_ROGUE_LIST, ROGUE_LIST)
         print(f"new rogue player: {new_dps} added to list")
         return True
 
@@ -384,9 +408,7 @@ class WoWClassHandler:
                 return False
         CLASS_SHAMAN_LIST.append(str(new_dps))
 
-        with open(SHAMAN_LIST,'w') as f:
-            for user in CLASS_SHAMAN_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_SHAMAN_LIST, SHAMAN_LIST)
         print(f"new shaman player: {new_dps} added to list")
         return True
 
@@ -400,9 +422,7 @@ class WoWClassHandler:
                 return False
         CLASS_WARLOCK_LIST.append(str(new_dps))
 
-        with open(WARLOCK_LIST,'w') as f:
-            for user in CLASS_WARLOCK_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_WARLOCK_LIST, WARLOCK_LIST)
         print(f"new warlock player: {new_dps} added to list")
         return True
 
@@ -416,8 +436,141 @@ class WoWClassHandler:
                 return False
         CLASS_WARRIOR_LIST.append(str(new_dps))
 
-        with open(WARRIOR_LIST,'w') as f:
-            for user in CLASS_WARRIOR_LIST:
-                f.write(user +"\n")
+        self.SaveList(CLASS_WARRIOR_LIST, WARRIOR_LIST)
         print(f"new warrior player: {new_dps} added to list")
         return True
+
+
+    
+    ########################### Remove ################################
+    def RemoveWarriorPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_WARRIOR_LIST:
+            if user == str(player):
+                CLASS_WARRIOR_LIST.remove(user)
+                self.SaveList(CLASS_WARRIOR_LIST, WARRIOR_LIST)
+                return True
+        return False
+
+    def RemoveRougePlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_ROGUE_LIST:
+            if user == str(player):
+                CLASS_ROGUE_LIST.remove(user)
+                self.SaveList(CLASS_ROGUE_LIST, ROGUE_LIST)
+                return True
+        return False
+
+    def RemoveDruidPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_DRUID_LIST:
+            if user == str(player):
+                CLASS_DRUID_LIST.remove(user)
+                self.SaveList(CLASS_DRUID_LIST, DRUID_LIST)
+                return True
+        return False
+
+    def RemoveMagePlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_MAGE_LIST:
+            if user == str(player):
+                CLASS_MAGE_LIST.remove(user)
+                self.SaveListU(CLASS_MAGE_LIST, MAGE_LIST)
+                return True
+        return False
+
+    def RemovePriestPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_PRIEST_LIST:
+            if user == str(player):
+                CLASS_PRIEST_LIST.remove(user)
+                self.SaveList(CLASS_PRIEST_LIST, PRIEST_LIST)
+                return True
+        return False
+
+    def RemovePaladinPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_PALADIN_LIST:
+            if user == str(player):
+                CLASS_PALADIN_LIST.remove(user)
+                self.SaveList(CLASS_PALADIN_LIST, PALADIN_LIST)
+                return True
+        return False
+
+    def RemoveMonkPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_MONK_LIST:
+            if user == str(player):
+                CLASS_MONK_LIST.remove(user)
+                self.SaveList(CLASS_MONK_LIST, MONK_LIST)
+                return True
+        return False
+
+    def RemoveHunterPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_HUNTER_LIST:
+            if user == str(player):
+                CLASS_HUNTER_LIST.remove(user)
+                self.SaveList(CLASS_HUNTER_LIST, HUNTER_LIST)
+                return True
+        return False
+
+    def RemoveDkPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_DK_LIST:
+            if user == str(player):
+                CLASS_DK_LIST.remove(user)
+                self.SaveList(CLASS_DK_LIST, DK_LIST)
+                return True
+        return False
+
+    def RemoveDHPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_DH_LIST:
+            if user == str(player):
+                CLASS_DH_LIST.remove(user)
+                self.SaveList(CLASS_DH_LIST, DH_LIST)
+                return True
+        return False
+
+    def RemoveShamanPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_SHAMAN_LIST:
+            if user == str(player):
+                CLASS_SHAMAN_LIST.remove(user)
+                self.SaveList(CLASS_SHAMAN_LIST, SHAMAN_LIST)
+                return True
+        return False
+    
+    def RemoveWarlockPlayer(self, player):
+        if not player:
+            print("Error no user found")
+            return False
+        for user in CLASS_WARLOCK_LIST:
+            if user == str(player):
+                CLASS_WARLOCK_LIST.remove(user)
+                self.SaveList(CLASS_WARLOCK_LIST, WARLOCK_LIST)
+                return True
+        return False
