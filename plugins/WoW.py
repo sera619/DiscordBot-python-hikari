@@ -2,7 +2,7 @@ import hikari
 import lightbulb
 import os
 import miru
-from dist.customviews import ClassView
+from dist.customviews import ClassView, RemoveClassView
 from plugins.config import SERA_DISCORD_ID, WoWClassHandler
 from plugins.config import (
     CLASS_DRUID_LIST,
@@ -29,15 +29,22 @@ async def loadWoWPlugin(event: hikari.StartedEvent):
 
 @wow_plugin.listener(hikari.GuildMessageCreateEvent)
 async def classCheck(event: hikari.GuildMessageCreateEvent):
-    if event.author_id == 1009782142923972659 or not event.content:
+    if event.author_id == 1081224695770271894 or not event.content:
         return
     if event.content == "classcheck":
         view = ClassView(timeout= 5.0)
         message = await event.message.respond("Check your ingame class", components=view.build())
-        view.start(message)
+        await view.start(message)
         await view.wait()
-
         return print('Classcheck done!')
+        
+    elif event.content == "classremove":
+        view = RemoveClassView(timeout=5.0)
+        message = await event.message.respond("Remove you from class!", components=view.build())
+        await view.start(message=message)
+        await view.wait()
+        return print("You removed from class!")
+
 
 @wow_plugin.command
 @lightbulb.command('wow', 'World of Warcraft Plugin Commands')
@@ -60,6 +67,8 @@ async def ShowDKList(ctx:lightbulb.Context):
         description=user_string,
         colour=0xC41E3A
     )
+    new_embed.set_thumbnail('./image/wow-classicons/deathknight.jpg')
+
     await ctx.respond(embed=new_embed)
 
 @WoWCommands.child
@@ -75,8 +84,10 @@ async def ShowDHList(ctx:lightbulb.Context):
     new_embed = hikari.Embed(
         title='**All Demon Hunter Players**',
         description=user_string,
-        colour=0xA330C9 
+        colour=0xA330C9, 
     )
+    new_embed.set_thumbnail('./image/wow-classicons/demonhunter.jpg')
+
     await ctx.respond(embed=new_embed)
 
 @WoWCommands.child
@@ -91,6 +102,8 @@ async def ShowMageList(ctx:lightbulb.Context):
         description=user_string,
         colour=0x3FC7EB 
     )
+    new_embed.set_thumbnail('./image/wow-classicons/mage.jpg')
+
     await ctx.respond(embed=new_embed),
 
 @WoWCommands.child
@@ -108,6 +121,8 @@ async def ShowDruidList(ctx:lightbulb.Context):
         description=user_string,
         colour=0xFF7C0A 
     )
+    new_embed.set_thumbnail('./image/wow-classicons/druid.jpg')
+
     await ctx.respond(embed=new_embed)
 
 @WoWCommands.child
@@ -124,6 +139,8 @@ async def ShowHunterList(ctx:lightbulb.Context):
         description=user_string,
         colour=0xAAD372
     )
+    new_embed.set_thumbnail('./image/wow-classicons/hunter.jpg')
+
     await ctx.respond(embed=new_embed)
 
 @WoWCommands.child
@@ -141,6 +158,8 @@ async def ShowPaladinList(ctx:lightbulb.Context):
         description=user_string,
         colour=0xF48CBA
     )
+    
+    new_embed.set_thumbnail('./image/wow-classicons/paladin.jpg')
     await ctx.respond(embed=new_embed)
 @WoWCommands.child
 @lightbulb.command('priest', 'Shows a list with all Priest players.',auto_defer = True)
@@ -157,7 +176,12 @@ async def ShowPriestList(ctx:lightbulb.Context):
         description=user_string,
         colour=0xFFFFFF
     )
+
+    new_embed.set_thumbnail('./image/wow-classicons/priest.jpg')
     await ctx.respond(embed=new_embed)
+
+
+
 @WoWCommands.child
 @lightbulb.command('rogue', 'Shows a list with all Rogue players.',auto_defer = True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
@@ -170,6 +194,8 @@ async def ShowRogueList(ctx:lightbulb.Context):
         description=user_string,
         colour=0xFFF468
     )
+    new_embed.set_thumbnail('./image/wow-classicons/rogue.jpg')
+
     await ctx.respond(embed=new_embed)
 
 @WoWCommands.child
@@ -187,6 +213,8 @@ async def ShowShamanList(ctx:lightbulb.Context):
         description=user_string,
         colour=0x0070DD
     )
+    new_embed.set_thumbnail('./image/wow-classicons/shaman.jpg')
+
     await ctx.respond(embed=new_embed)
 
 @WoWCommands.child
@@ -204,6 +232,8 @@ async def ShowWarlockList(ctx:lightbulb.Context):
         description=user_string,
         colour=0x8788EE
     )
+    new_embed.set_thumbnail('./image/wow-classicons/warlock.jpg')
+
     await ctx.respond(embed=new_embed)
 
 @WoWCommands.child
@@ -221,6 +251,8 @@ async def ShowWarriorList(ctx:lightbulb.Context):
         description=user_string,
         colour=0xC69B6D
     )
+    new_embed.set_thumbnail('./image/wow-classicons/warrior.jpg')
+
     await ctx.respond(embed=new_embed)
 
 @WoWCommands.child
@@ -235,6 +267,8 @@ async def ShowMonkList(ctx:lightbulb.Context):
         description=user_string,
         colour=0x00FF98
     )
+    new_embed.set_thumbnail('./image/wow-classicons/monk.jpg')
+
     await ctx.respond(embed=new_embed)
 
 
