@@ -4,7 +4,7 @@ import lightbulb
 import os
 
 
-from dist.customviews import DiceView, RoleView, R
+from dist.customviews import DiceView, RoleView
 plugin = lightbulb.Plugin('commands')
 global CONTROL_CHANNEL
 CONTROL_CHANNEL = None

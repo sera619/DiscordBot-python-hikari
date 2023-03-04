@@ -15,6 +15,7 @@ from plugins.config import load_bot_setting
 
 class NecroBot:
     def __init__(self, token, discord_id = None, admin_id = None):
+
         if token == None:
             print("ERROR: SET A DISCORD TOKEN!")
             exit(1)
@@ -35,6 +36,7 @@ class NecroBot:
         @self.bot.listen(hikari.StartedEvent)
         async def start(event: hikari.StartedEvent):
             id = self.bot.get_me()
+            global bot
             load  = load_bot_setting()
             """
             """
@@ -49,10 +51,11 @@ class NecroBot:
                 )
 
             ### GET ALL CUSTOM EMOJIS ###
-            
             emojis = await self.bot.rest.fetch_guild_emojis(SERA_DISCORD_ID)
             for emoji in emojis:
                 print(emoji.name, emoji.id)
+            global CLASS_ROLE_LIST
+            CLASS_ROLE_LIST = await self.bot.rest.fetch_roles(SERA_DISCORD_ID)
 
 
             return print("started", id)
@@ -118,18 +121,12 @@ def main():
     
     bot.startBot()
 
-
+global bot
 if __name__ == '__main__':
-    global bot
-    bot = None
-    try:
-        discord_id = SERA_DISCORD_ID
-        admin_id = SERA_ID
-        token = TOKEN
-        bot = NecroBot(token=TOKEN, admin_id=admin_id, discord_id=discord_id) 
-        main()
-    except KeyboardInterrupt:
-        print("Bot exited")
-    finally:
 
-        sys.exit(bot)
+    discord_id = SERA_DISCORD_ID
+    admin_id = SERA_ID
+    token = TOKEN
+
+    bot = NecroBot(token=TOKEN, admin_id=admin_id, discord_id=discord_id) 
+    main()

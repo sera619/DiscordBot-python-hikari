@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import lightbulb
 
 load_dotenv()
 
@@ -55,6 +56,22 @@ ROGUE_LIST = './data/rogue_list.txt'
 SHAMAN_LIST = './data/shaman_list.txt'
 WARLOCK_LIST = './data/warlock_list.txt'
 WARRIOR_LIST = './data/Warrior_list.txt'
+
+ROLE_DIC = {
+    "Druid":"1081268640718004304",
+    "DH": "1081610496681201798",
+    "DK": "1081610633281286365",
+    "Hunter": "1081611852049563760",
+    "Mage": "1081269261512753243",
+    "Monk":"1081610954074230866",
+    "Shaman": "1081269599854661764",
+    "Paladin": "1081268906020327445",
+    "Priest": "1081610897878962207",
+    "Rogue": "1081269600999706636",
+    "Walock": "1081611096584114266",
+    "Warrior": "1081610735207059547"
+}
+
 
 class COLORS:
     def __init__(self) -> None:
@@ -574,3 +591,4 @@ class WoWClassHandler:
                 self.SaveList(CLASS_WARLOCK_LIST, WARLOCK_LIST)
                 return True
         return False
+
