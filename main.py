@@ -56,8 +56,6 @@ class NecroBot:
                 print(emoji.name, emoji.id)
             global CLASS_ROLE_LIST
             CLASS_ROLE_LIST = await self.bot.rest.fetch_roles(SERA_DISCORD_ID)
-
-
             return print("started", id)
         
         @self.bot.listen()
