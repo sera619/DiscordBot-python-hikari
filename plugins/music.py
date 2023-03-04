@@ -6,7 +6,7 @@ import re
 from typing import Optional
 import os
 import hikari
-import lavasnek_rs
+#import lavasnek_rs
 import lightbulb
 from lightbulb.utils import nav, pag
 from yarl import URL
