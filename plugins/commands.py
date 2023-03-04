@@ -4,7 +4,7 @@ import lightbulb
 import os
 
 
-from dist.customviews import DiceView, RoleView
+from dist.customviews import DiceView, RoleView, R
 plugin = lightbulb.Plugin('commands')
 global CONTROL_CHANNEL
 CONTROL_CHANNEL = None
@@ -26,7 +26,7 @@ async def checkAdmin(member_id, guild) -> bool:
 
 @plugin.listener(hikari.GuildMessageCreateEvent)
 async def printMsg(event: hikari.GuildMessageCreateEvent):
-    if event.author_id == 1009782142923972659 or not event.content:
+    if event.author_id == 1081224695770271894 or not event.content:
         return
     is_admin = await checkAdmin(member_id=event.author_id, guild=event.guild_id)
     #await plugin.bot.rest.create_message(type(event.content), channel=event.channel_id)
@@ -41,9 +41,10 @@ async def printMsg(event: hikari.GuildMessageCreateEvent):
     if event.content == 'rolecheck':
         view = RoleView(timeout= 5.0)
         message = await event.message.respond("Check you character role.",components=view.build())
-        view.start(message)
+        await view.start(message)
         await view.wait()
         return print("Rolecheck done!")
+    
 
     # if event.content != "buttons" and event.content != 'classcheck' and event.content != "rolecheck":
     #     if is_admin:
