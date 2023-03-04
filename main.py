@@ -1,5 +1,5 @@
 from datetime import datetime
-import os
+import os, sys
 from re import U
 import aiohttp
 import concurrent.futures
@@ -9,8 +9,10 @@ import hikari
 import miru
 from hikari import emojis
 from lightbulb.ext import tasks
-from plugins.config import SERA_DISCORD_ID, SERA_ID, TOKEN, LoadRoleList, SHOW_START_EMBED
-LOGO_URL = './image/logo.jpg'
+from plugins.config import SERA_DISCORD_ID, SERA_ID, TOKEN, LoadRoleList, SHOW_START_EMBED, COMMON_CHANNEL_ID
+LOGO_URL = './image/logo1.png'
+from plugins.config import load_bot_setting
+
 class NecroBot:
     def __init__(self, token, discord_id = None, admin_id = None):
         if token == None:
@@ -24,22 +26,22 @@ class NecroBot:
             self.SERA_ID = admin_id
         
         LoadRoleList()
+        
         self.bot = self.configBot()
         self.bot.d.aio_session = None
         self.bot.d.process_pool = None
-
-        
         
         ################# LOGIN ###################
         @self.bot.listen(hikari.StartedEvent)
         async def start(event: hikari.StartedEvent):
             id = self.bot.get_me()
+            load  = load_bot_setting()
             """
             """
-            if SHOW_START_EMBED == True:
+            if load == True:
                 await self.bot.rest.create_message(
-                    channel=979384595114000384,
-                    content='NecroBOT started...\n'
+                    channel=COMMON_CHANNEL_ID,
+                    content='S3R43o3 started...\n'
                     f'Check out bot source code @ ** https://github.com/sera619/DiscordBot-python-hikari **\n\n'
                     f'Plugins loaded:\n'
                     f'**Admin**\n**Commands**\n**Moderator**\n**Music**\n**WoW**\n'
@@ -48,9 +50,9 @@ class NecroBot:
 
             ### GET ALL CUSTOM EMOJIS ###
             
-            # emojis = await self.bot.rest.fetch_guild_emojis(SERA_DISCORD_ID)
-            # for emoji in emojis:
-            #     print(emoji.name, emoji.id)
+            emojis = await self.bot.rest.fetch_guild_emojis(SERA_DISCORD_ID)
+            for emoji in emojis:
+                print(emoji.name, emoji.id)
 
 
             return print("started", id)
@@ -73,7 +75,7 @@ class NecroBot:
             for plugin in self.bot.plugins:
                 plugin_string += plugin.capitalize() +"\n"
             new_embed = hikari.Embed(
-                title='**Necro BOT Information**',
+                title='**S3R43o3 BOT Information**',
                 description=f'*Click the title-link above to check out the source code on my Github.*\n\n'
                     f'***PLEASE NOTICE:***\n*If this is your first time running this bot please use the command* **/admin init** to start the first initialization.\n'
                     f'\n\n**Plugins loaded:**\n'
@@ -96,8 +98,8 @@ class NecroBot:
         )           
     )
 
-    def stopBot(self):
-        self.bot.close()
+    async def stopBot(self):
+        await self.bot.close()
 
     def configBot(self):
         self.bot = lightbulb.BotApp(
@@ -108,13 +110,11 @@ class NecroBot:
             ignore_bots=False)
         self.bot.load_extensions("plugins.commands", "plugins.moderator", "plugins.admin", "plugins.WoW", 'plugins.calender')
         tasks.load(self.bot)
-        miru.load(self.bot)
+        miru.install(self.bot)
         return self.bot
-        
-        
-        
 
 def main():
+    load_bot_setting()
     
     bot.startBot()
 
@@ -129,7 +129,7 @@ if __name__ == '__main__':
         bot = NecroBot(token=TOKEN, admin_id=admin_id, discord_id=discord_id) 
         main()
     except KeyboardInterrupt:
-        bot.stopBot()
-        exit()
-    finally:
         print("Bot exited")
+    finally:
+
+        sys.exit(bot)
