@@ -57,6 +57,7 @@ async def printMsg(event: hikari.GuildMessageCreateEvent):
             f"All my coderelated stuff on Github:\n*https://www.github.com/sera619*\n\nOn my Youtubechannel you get cyber security information and livehacks:\n*https://www.youtube.com/@S3R43o3*\n\n"+
             f"**\"No system is safe. Expect us!\"**"
         )
+        embed.set_thumbnail("./image/blackhat.png")
         return await event.message.respond(embed=embed)
     # if event.content != "buttons" and event.content != 'classcheck' and event.content != "rolecheck":
     #     if is_admin:
