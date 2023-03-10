@@ -28,7 +28,7 @@ async def checkAdmin(member_id, guild) -> bool:
 async def printMsg(event: hikari.GuildMessageCreateEvent):
     if event.author_id == 1081224695770271894 or not event.content:
         return
-    is_admin = await checkAdmin(member_id=event.author_id, guild=event.guild_id)
+    #is_admin = await checkAdmin(member_id=event.author_id, guild=event.guild_id)
     #await plugin.bot.rest.create_message(type(event.content), channel=event.channel_id)
 
     if event.content == "buttons":
@@ -44,8 +44,20 @@ async def printMsg(event: hikari.GuildMessageCreateEvent):
         await view.start(message)
         await view.wait()
         return print("Rolecheck done!")
-    
 
+    if event.content == 'whoami':
+        embed = hikari.Embed(
+            title = "**Who am i?**",
+            description= f"Characteristics:\n"+
+            f"**Name:** S3R43o3\n"+
+            f"**Job:** Black Hat Hacker, Gamedeveloper, FullStack Developer\n"+
+            f"**Skill-Set:** BASH, C, C++, C#, CSS/SASS, Dart, GDScript, GO, HTML, Java, JavaScript, Kotlin, Markdown, Pearl, PHP, Python, PowerShell, R, Ruby, Swift, SQL, XML and others.\n"+
+            f"**OS:** Kali Linux, Fedora, Parrot, Windows\n"+
+            f"**Description**: Soziopath, Misantroph and a Hacker since the early 90's. Member and Cyberwarrior of Anonymous. Experience in more than 4000 hacked machines. Top 100 www.TryHackme.com CTF Player.\n\n"
+            f"All my coderelated stuff on Github:\n*https://www.github.com/sera619*\n\nOn my Youtubechannel you get cyber security information and livehacks:\n*https://www.youtube.com/@S3R43o3*\n\n"+
+            f"**\"No system is safe. Expect us!\"**"
+        )
+        return await event.message.respond(embed=embed)
     # if event.content != "buttons" and event.content != 'classcheck' and event.content != "rolecheck":
     #     if is_admin:
     #         return await plugin.bot.rest.create_message(content="Your are a Admin",channel= event.channel_id)
