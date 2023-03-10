@@ -74,8 +74,7 @@ async def adminCommands(ctx):
 @lightbulb.command('test', 'Test if you have admin role.')
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def adminSendMsg(ctx: lightbulb.Context):
-    isAdmin = await checkAdmin(ctx.author.id, ctx.guild_id)
-    if isAdmin:
+    if not await checkAdmin(ctx.author.id, ctx.guild_id):
         return await ctx.respond("Du bist ein admin")
     else:
         return await ctx.respond("Du bist kein admin")
@@ -85,8 +84,7 @@ async def adminSendMsg(ctx: lightbulb.Context):
 @lightbulb.command('init', 'Start the first configuration for the bot')
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def adminInitBot(ctx: lightbulb.Context):
-    isAdmin = await checkAdmin(ctx.author.id, ctx.guild_id)
-    if not isAdmin:
+    if not await checkAdmin(ctx.author.id, ctx.guild_id):
         return
     
     channels = await admin_plugin.bot.rest.fetch_guild_channels(ctx.guild_id)

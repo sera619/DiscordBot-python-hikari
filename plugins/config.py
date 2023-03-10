@@ -55,7 +55,7 @@ PRIEST_LIST = './data/priest_list.txt'
 ROGUE_LIST = './data/rogue_list.txt'
 SHAMAN_LIST = './data/shaman_list.txt'
 WARLOCK_LIST = './data/warlock_list.txt'
-WARRIOR_LIST = './data/Warrior_list.txt'
+WARRIOR_LIST = './data/warrior_list.txt'
 
 ROLE_DIC = {
     "Druid":"1081268640718004304",
