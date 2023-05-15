@@ -1,6 +1,10 @@
-__pycache__
-.env
+venv
 env-discordHikari
 lavalink
-bot-set.txt
-raid_terms-1.txt
+package
+test
+.env
+fly.toml
+.vscode
+__pycache__
+.dockerignore

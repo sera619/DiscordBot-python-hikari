@@ -42,12 +42,12 @@ async def linux_basic(ctx: lightbulb.Context):
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def linux_basic(ctx: lightbulb.Context):
     coms = (f"**Gameproject Informationen:**\nHier die allgemeinen Informationen:\n\n"+
-        f"Das Spiel wird in der Godot Engine 4 entwickelt. Ein Action-RPG im Style des Klassikers *Secret of Mana* für das *Super Nintendo Entertainment System.\n"+
-        f"Die Grafik ist daher in *2D Pixelart*. Viele typische Elemente wie Quests, unterschiedliche Welten mit Dungeons und Monstern.\n"+
+        f"Das Spiel wird in der Godot Engine 4 entwickelt. Ein Action-RPG im Style des Klassikers _Secret of Mana_ für das _Super Nintendo Entertainment System_.\n"+
+        f"Die Grafik ist daher in _2D Pixelart_. Viele typische Elemente wie Quests, unterschiedliche Welten mit Dungeons und Monstern.\n"+
         f"Ein Kampfsystem mit verschiedenen Angriffen und Zaubern. Das Projekt ist noch in einer frühen Phase und daher noch nicht vollständig.\n\n"+
         f"Das Spiel ist auf Github zu finden:\n*https://www.github.com/sera619/Godot4-RPG*\n")
     e = hikari.Embed(
-        title="Game - Basiccommands",
+        title="Game - Informationen",
         description=coms
     )
     e.set_thumbnail('./image/logo1.png')

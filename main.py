@@ -51,11 +51,13 @@ class NecroBot:
                 )
 
             ### GET ALL CUSTOM EMOJIS ###
-            emojis = await self.bot.rest.fetch_guild_emojis(SERA_DISCORD_ID)
-            for emoji in emojis:
-                print(emoji.name, emoji.id)
+            #emojis = await self.bot.rest.fetch_guild_emojis(SERA_DISCORD_ID)
+            #for emoji in emojis:
+            #    print(emoji.name, emoji.id)
             global CLASS_ROLE_LIST
             CLASS_ROLE_LIST = await self.bot.rest.fetch_roles(SERA_DISCORD_ID)
+            #print(CLASS_ROLE_LIST)
+            
             return print("started", id)
         
         @self.bot.listen()
@@ -114,17 +116,16 @@ class NecroBot:
         miru.install(self.bot)
         return self.bot
 
+
 def main():
     load_bot_setting()
-    
-    bot.startBot()
-
-global bot
-if __name__ == '__main__':
-
     discord_id = SERA_DISCORD_ID
     admin_id = SERA_ID
     token = TOKEN
 
-    bot = NecroBot(token=TOKEN, admin_id=admin_id, discord_id=discord_id) 
+    bot = NecroBot(token=token, admin_id=admin_id, discord_id=discord_id) 
+    
+    bot.startBot()
+
+if __name__ == "__main__":
     main()

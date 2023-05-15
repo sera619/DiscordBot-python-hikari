@@ -4,12 +4,13 @@ import lightbulb
 import os
 
 
+
 from dist.customviews import DiceView, RoleView
 plugin = lightbulb.Plugin('commands')
 global CONTROL_CHANNEL
 CONTROL_CHANNEL = None
 
-@staticmethod
+
 async def checkAdmin(member_id, guild) -> bool: 
     member = await plugin.bot.rest.fetch_member(guild=guild, user=member_id)
     member_roles = await member.fetch_roles()
@@ -45,17 +46,23 @@ async def printMsg(event: hikari.GuildMessageCreateEvent):
         await view.wait()
         return print("Rolecheck done!")
 
+
     if event.content == 'whoami':
         embed = hikari.Embed(
             title = "**Who am i?**",
             description= f"Characteristics:\n"+
             f"**Name:** S3R43o3\n"+
+            f"**Description**: Soziopath, Misantroph and a Hacker since the early 90's. Member and Cyberwarrior of Anonymous. Experience in more than 4500 hacked machines. Top 100 www.TryHackme.com CTF Player.\n\n"
             f"**Job:** Black Hat Hacker, Gamedeveloper, FullStack Developer\n"+
             f"**Skill-Set:** BASH, C, C++, C#, CSS/SASS, Dart, GDScript, GO, HTML, Java, JavaScript, Kotlin, Markdown, Pearl, PHP, Python, PowerShell, R, Ruby, Swift, SQL, XML and others.\n"+
             f"**OS:** Kali Linux, Fedora, Parrot, Windows\n"+
-            f"**Description**: Soziopath, Misantroph and a Hacker since the early 90's. Member and Cyberwarrior of Anonymous. Experience in more than 4000 hacked machines. Top 100 www.TryHackme.com CTF Player.\n\n"
-            f"All my coderelated stuff on Github:\n*https://www.github.com/sera619*\n\nOn my Youtubechannel you get cyber security information and livehacks:\n*https://www.youtube.com/@S3R43o3*\n\n"+
-            f"**\"No system is safe. Expect us!\"**"
+            f"**Social Links:**"+
+            f"\n\tTry Hack Me:\n\thttps://tryhackme.com/p/S3R43o3"+
+            f"\n\tYoutube:\n\thttps://www.youtube.com/@S3R43o3"+
+            f"\n\tGithub:\n\thttps://wwww.github.com/sera619"+
+            f"\n\tCodepen:\n\thttps://codepen.io/sera619\n"+
+            f"**\"No system is safe. Expect us!\"**",
+            color=hikari.Color.from_rgb(255, 0, 0)
         )
         embed.set_thumbnail("./image/blackhat.png")
         return await event.message.respond(embed=embed)
