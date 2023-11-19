@@ -9,4 +9,4 @@ fly.toml
 __pycache__
 .dockerignore
 Makefile
-/data/raids/
+/data/raids/*
