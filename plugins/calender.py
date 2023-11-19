@@ -8,7 +8,7 @@ import pickle
 from main import LOGO_URL
 from plugins.config import COLORS
 
-calendar_plugin = lightbulb.Plugin('calendar', 'Simple calendar system.')
+calendar_plugin = lightbulb.Plugin('calendar', 'A World of Warcraft raid calendar system.')
 RAID_TERMS_PATH = './data/raids/raid_terms-'
 RAID_DIR = './data/raids'
 base_raid_term = {
@@ -21,7 +21,7 @@ base_raid_term = {
 
 colors = COLORS()
 
-def SaveRaidTerms(id,date, time, raid):
+def SaveRaidTerms(id, date, time, raid):
     base_raid_term['id'] = str(id)
     base_raid_term['date'] = str(date)
     base_raid_term['raid'] = str(raid)
@@ -55,9 +55,11 @@ def getRaidEvents() -> array:
     for name in files:
         formatted_name = name[11:-4]
         formated_files.append(formatted_name)
-    return formated_files
-
-
+    raids = [] 
+    for id in formated_files:
+        raidterm = LoadRaidTerms(id)
+        raids.append(raidterm)        
+    return raids
 
 def setRaidMember(id, member):
     raid = LoadRaidTerms(id)
@@ -156,10 +158,11 @@ async def joinRaid(ctx: lightbulb.Context, id):
 @lightbulb.command('showup', 'Shows ID´s from all entrys in the Raid Calender.', auto_defer = True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def showAllRaids(ctx: lightbulb.Context):
-    raid_ids = getRaidEvents()
+    raids = getRaidEvents()
     raid_string = "" 
-    for id in raid_ids:
-        raid_string += "**"+ str(id) + "**\n"
+    for raid in raids:
+        raid_string += "**"+ str(raid['id']) + ")**"+f"\tRaid: {raid['raid']} | Start: {raid['time']}pm @ {raid['date']}\n------------ Members: {len(raid['member'])} / 25\n"
+        raid_string +='#############################################\n'
 
     new_embed = hikari.Embed(
         title="All current raid entry.",

@@ -59,7 +59,7 @@ async def printMsg(event: hikari.GuildMessageCreateEvent):
             f"**Social Links:**"+
             f"\n\tTry Hack Me:\n\thttps://tryhackme.com/p/S3R43o3"+
             f"\n\tYoutube:\n\thttps://www.youtube.com/@S3R43o3"+
-            f"\n\tGithub:\n\thttps://wwww.github.com/sera619"+
+            f"\n\tGithub:\n\thttps://www.github.com/sera619"+
             f"\n\tCodepen:\n\thttps://codepen.io/sera619\n"+
             f"**\"No system is safe. Expect us!\"**",
             color=hikari.Color.from_rgb(255, 0, 0)
