@@ -8,3 +8,4 @@ fly.toml
 .vscode
 __pycache__
 .dockerignore
+Makefile
