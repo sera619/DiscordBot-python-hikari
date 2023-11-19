@@ -1,5 +1,4 @@
 from array import array
-from operator import contains
 import hikari
 import miru
 import lightbulb
@@ -36,7 +35,7 @@ def getRaidMember(raid: dict):
         if member == []:
             raid_member = "**Currently no member joined**"
             break
-        raid_member += "**"+str(member) + "**, "
+        raid_member += "**"+str(member[:-2]) + "**, "
     print(raid_member)
     return raid_member
 
@@ -78,16 +77,13 @@ def setRaidMember(id, member):
 def LoadRaidTerms(id):
     with open(RAID_TERMS_PATH+str(id)+'.txt','rb') as f:
         loaded_dict = pickle.load(f)
-        print(loaded_dict)
         return loaded_dict
-
 
 @calendar_plugin.command
 @lightbulb.command('calendar', 'All Calendar relevant commands')
 @lightbulb.implements(lightbulb.SlashCommandGroup)
 async def calendarCommands(ctx):
     pass
-
 
 @calendarCommands.child
 @lightbulb.option('id', 'The UNIQUE ID for the Raid you looking for.', modifier=lightbulb.OptionModifier.CONSUME_REST, required=True, autocomplete=True)
@@ -160,10 +156,12 @@ async def joinRaid(ctx: lightbulb.Context, id):
 async def showAllRaids(ctx: lightbulb.Context):
     raids = getRaidEvents()
     raid_string = "" 
-    for raid in raids:
-        raid_string += "**"+ str(raid['id']) + ")**"+f"\tRaid: {raid['raid']} | Start: {raid['time']}pm @ {raid['date']}\n------------ Members: {len(raid['member'])} / 25\n"
-        raid_string +='#############################################\n'
-
+    if len(raids) > 0:
+        for raid in raids:
+            raid_string += "**"+ str(raid['id']) + ")**"+f"\tRaid: {raid['raid']} | Start: {raid['time']}pm @ {raid['date']}\n------------ Members: {len(raid['member'])} / 25\n"
+            raid_string +='#############################################\n'
+    else:
+        raid_string += "**No raids planned.**\n\nYou can create a new raid with '/calendar create'"
     new_embed = hikari.Embed(
         title="All current raid entry.",
         description="*The follow entrys exists:*\n\n"
